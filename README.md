@@ -1,23 +1,22 @@
-# PreçoCerto Lab — MVP
+# PreçoCerto Lab 2.0
 
-Site estático em português com calculadora de preço para impressão 3D.
+Site estático com quatro ferramentas e páginas institucionais.
 
-## Testar
-Abra `index.html` em um navegador. Não exige servidor nem instalação.
+## Atualização no GitHub
 
-## Publicar
-Faça upload de `index.html` e `robots.txt` em uma hospedagem estática, como Cloudflare Pages ou GitHub Pages. Configure domínio próprio se desejar. Depois de definir o domínio, adicione canonical, sitemap.xml e cadastre-o no Search Console.
+Envie os arquivos **dentro** desta pasta para a raiz do repositório `precocerto-lab` e confirme a substituição dos arquivos de mesmo nome. Não apague o arquivo `google*.html` usado para verificar o Search Console.
 
-## Antes de solicitar AdSense
-- Testar em celular e desktop; revisar cálculos com casos reais.
-- Acrescentar páginas completas de contato, política de privacidade e sobre o responsável, com dados verdadeiros.
-- Adicionar ferramentas e conteúdo original de valor; não solicitar aprovação apenas por ter uma calculadora.
-- Verificar requisitos de idade e conta com um responsável adulto, quando necessário.
-- Não comprar tráfego para simular popularidade nem clicar em anúncios próprios.
+## Testes
 
-## Cálculo
-Material = preço/kg × gramas/1000.
-Energia = potência W /1000 × horas × tarifa/kWh.
-Máquina = custo/hora × horas.
-Preço = (material + energia + máquina + extras) / (1 - (taxas + margem)/100).
-A margem é percentual do preço final, não markup sobre o custo.
+- Impressão 3D: valores iniciais => R$ 28,70.
+- Margem: custo 50, taxa 10%, margem 25% => R$ 76,92.
+- Marketplace: custo 35, embalagem 5, tarifa fixa 4, comissão 15%, margem 20% => R$ 67,69.
+- Orçamento: quantidade 2, unitário 100, desconto 10 => R$ 190,00. Use Imprimir > Salvar como PDF.
+- Taxas + margem >= 100% => erro.
+
+## Atenção
+
+- O Google não garante indexação nem aprovação no AdSense.
+- Antes de anúncios, revise política de privacidade e requisitos de hospedagem e idade.
+- Configure um contato profissional antes de monetizar.
+- A versão anterior continua acessível apenas se você preservar arquivos; faça backup do repositório antes de substituir.

@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://matheusizidoro19-arch.github.io/precocerto-lab/sitemap.xml
