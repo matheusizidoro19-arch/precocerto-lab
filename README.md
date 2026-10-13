@@ -1,22 +1,7 @@
-# PreçoCerto Lab 2.0
+PreçoCerto Lab 2.4
 
-Site estático com quatro ferramentas e páginas institucionais.
+Atualização de conteúdo com três guias de precificação e links na página inicial.
 
-## Atualização no GitHub
+Para atualizar o GitHub Pages, envie para a raiz do repositório os cinco arquivos: index.html, sitemap.xml, quanto-custa-impressao-3d.html, como-calcular-preco-venda.html e lucro-shopee-mercado-livre.html.
 
-Envie os arquivos **dentro** desta pasta para a raiz do repositório `precocerto-lab` e confirme a substituição dos arquivos de mesmo nome. Não apague o arquivo `google*.html` usado para verificar o Search Console.
-
-## Testes
-
-- Impressão 3D: valores iniciais => R$ 28,70.
-- Margem: custo 50, taxa 10%, margem 25% => R$ 76,92.
-- Marketplace: custo 35, embalagem 5, tarifa fixa 4, comissão 15%, margem 20% => R$ 67,69.
-- Orçamento: quantidade 2, unitário 100, desconto 10 => R$ 190,00. Use Imprimir > Salvar como PDF.
-- Taxas + margem >= 100% => erro.
-
-## Atenção
-
-- O Google não garante indexação nem aprovação no AdSense.
-- Antes de anúncios, revise política de privacidade e requisitos de hospedagem e idade.
-- Configure um contato profissional antes de monetizar.
-- A versão anterior continua acessível apenas se você preservar arquivos; faça backup do repositório antes de substituir.
+Os arquivos de calculadoras, app.js, style.css, orcamento.html e o arquivo de verificação do Google devem permanecer inalterados.
