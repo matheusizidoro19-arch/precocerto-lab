@@ -1,2 +1,141 @@
+
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>Calculadora de margem de lucro e preço de venda | PreçoCerto Lab</title><meta content="Calcule preço de venda com margem de lucro sobre a venda e taxas percentuais. Entenda a diferença entre margem e markup com exemplos." name="description"/><meta content="index,follow" name="robots"/><meta content="#10243a" name="theme-color"/><link href="https://matheusizidoro19-arch.github.io/precocerto-lab/margem-lucro.html" rel="canonical"/><link href="style.css" rel="stylesheet"/><meta property="og:type" content="website"><meta property="og:site_name" content="PreçoCerto Lab"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Calculadora de margem de lucro e preço de venda | PreçoCerto Lab"><meta property="og:description" content="Calcule preço de venda com margem de lucro sobre a venda e taxas percentuais. Entenda a diferença entre margem e markup com exemplos."><meta property="og:url" content="https://matheusizidoro19-arch.github.io/precocerto-lab/margem-lucro.html"><meta property="og:image" content="https://matheusizidoro19-arch.github.io/precocerto-lab/assets/og-preco-certo.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header><nav><a class="brand" href="index.html">◈ PreçoCerto Lab</a><div><a href="impressao-3d.html">Impressão 3D</a><a href="margem-lucro.html">Margem</a><a href="marketplace.html">Marketplace</a><a href="orcamento.html">Orçamentos</a></div></nav></header><main><div class="eyebrow">Grátis · Sem cadastro</div><h1>Calculadora de margem de lucro</h1><p class="lead">Calcule um preço de venda com base no custo, nas taxas e na margem desejada.</p><div class="grid"><section class="panel"><h2>Preencha os dados</h2><form data-kind="margem" id="calculator"><div class="fields"><label>Custo do produto ou serviço (R$)<input id="custoBase" min="0" required="" step="0.01" type="number" value="50"/></label><label>Taxas sobre venda (%)<input id="taxas" min="0" required="" step="0.1" type="number" value="10"/></label><label>Margem desejada sobre venda (%)<input id="margem" min="0" required="" step="0.1" type="number" value="25"/></label></div><button class="button" type="submit">Calcular</button></form></section><section aria-live="polite" class="panel result"><h2>Resultado</h2><p>Preço de venda sugerido</p><div class="amount" id="preco">—</div><p class="error" id="erro" role="status"></p><div class="line"><span>Custo</span><strong id="custo">—</strong></div><div class="line"><span>Taxas estimadas</span><strong id="taxaFinal">—</strong></div><div class="line"><span>Lucro estimado</span><strong id="lucro">—</strong></div><p class="small">Valores estimados. Confira taxas, impostos, perdas e custos reais antes de decidir o preço.</p></section></div><section class="panel article"><h2>Como calcular o preço com margem de lucro?</h2><p>Esta calculadora usa a margem de lucro <strong>sobre o preço de venda</strong>, e não sobre o custo. O cálculo é: preço = custo ÷ (1 − taxa percentual − margem percentual), com os percentuais convertidos em números decimais. Se a soma de taxas e margem for igual ou superior a 100%, não existe preço positivo finito pela fórmula.</p><h2>Exemplo prático</h2><p>Um produto custa R$ 50,00. Se as taxas sobre a venda são de 10% e você quer uma margem de 25%, o preço é R$ 50 ÷ 0,65 = R$ 76,92. Desse valor, cerca de R$ 7,69 são taxas e R$ 19,23 representam o lucro estimado. Inclua embalagem, frete pago por você e despesas relevantes no custo antes de calcular.</p><h2>Perguntas frequentes</h2><h3>Margem de lucro é a mesma coisa que markup?</h3><p>Não. Margem compara lucro com o preço de venda; markup compara o preço ou acréscimo com o custo. Aplicar 25% sobre o custo não resulta em margem de 25% sobre a venda.</p><h3>A calculadora inclui impostos?</h3><p>Somente se você os informar entre as taxas ou custos. A tributação varia conforme o negócio e o tipo de operação.</p><h3>E se eu vender em marketplaces?</h3><p>Use a <a href="marketplace.html">calculadora de marketplaces</a> para separar comissões percentuais, tarifa fixa, frete e embalagem. Se precisar apresentar um preço ao cliente, utilize o <a href="orcamento.html">gerador de orçamentos</a>.</p></section></main><footer><div class="foot"><p>© 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.</p><a href="index.html">Início</a><a href="sobre.html">Sobre</a><a href="privacidade.html">Privacidade</a><a href="contato.html">Contato</a></div></footer><script defer="" src="app.js?v=242"></script></body></html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Calculadora de margem de lucro e preço de venda | PreçoCerto Lab</title>
+<meta content="Calcule preço de venda com margem de lucro sobre a venda e taxas percentuais. Entenda a diferença entre margem e markup com exemplos." name="description"/>
+<meta content="index,follow" name="robots"/>
+<meta content="#10243a" name="theme-color"/>
+<link href="https://matheusizidoro19-arch.github.io/precocerto-lab/margem-lucro.html" rel="canonical"/>
+<link href="style.css" rel="stylesheet"/>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PreçoCerto Lab">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Calculadora de margem de lucro e preço de venda | PreçoCerto Lab">
+<meta property="og:description" content="Calcule preço de venda com margem de lucro sobre a venda e taxas percentuais. Entenda a diferença entre margem e markup com exemplos.">
+<meta property="og:url" content="https://matheusizidoro19-arch.github.io/precocerto-lab/margem-lucro.html">
+<meta property="og:image" content="https://matheusizidoro19-arch.github.io/precocerto-lab/assets/og-preco-certo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<header>
+<nav>
+<a class="brand" href="index.html">◈ PreçoCerto Lab</a>
+<div>
+<a href="impressao-3d.html">Impressão 3D</a>
+<a href="margem-lucro.html">Margem</a>
+<a href="marketplace.html">Marketplace</a>
+<a href="orcamento.html">Orçamentos</a>
+</div>
+</nav>
+</header>
+
+<main>
+<div class="eyebrow">Grátis · Sem cadastro</div>
+
+<h1>Calculadora de margem de lucro</h1>
+
+<p class="lead">Calcule um preço de venda com base no custo, nas taxas e na margem desejada.</p>
+
+<div class="grid">
+
+<section class="panel">
+<h2>Preencha os dados</h2>
+
+<form data-kind="margem" id="calculator">
+<div class="fields">
+
+<label>
+Custo do produto ou serviço (R$)
+<input id="custoBase" min="0" required="" step="0.01" type="number" value="50"/>
+</label>
+
+<label>
+Taxas sobre venda (%)
+<input id="taxas" min="0" required="" step="0.1" type="number" value="10"/>
+</label>
+
+<label>
+Margem desejada sobre venda (%)
+<input id="margem" min="0" required="" step="0.1" type="number" value="25"/>
+</label>
+
+</div>
+
+<button class="button" type="submit">Calcular</button>
+</form>
+</section>
+
+<section aria-live="polite" class="panel result">
+<h2>Resultado</h2>
+
+<p>Preço de venda sugerido</p>
+<div class="amount" id="preco">—</div>
+<p class="error" id="erro" role="status"></p>
+
+<div class="line">
+<span>Custo</span>
+<strong id="custo">—</strong>
+</div>
+
+<div class="line">
+<span>Taxas estimadas</span>
+<strong id="taxaFinal">—</strong>
+</div>
+
+<div class="line">
+<span>Lucro estimado</span>
+<strong id="lucro">—</strong>
+</div>
+
+<p class="small">Valores estimados. Confira taxas, impostos, perdas e custos reais antes de decidir o preço.</p>
+</section>
+
+</div>
+
+<section class="panel article">
+
+<h2>Como calcular o preço com margem de lucro?</h2>
+
+<p>Esta calculadora usa a margem de lucro <strong>sobre o preço de venda</strong>, e não sobre o custo. O cálculo é: preço = custo ÷ (1 − taxa percentual − margem percentual), com os percentuais convertidos em números decimais. Se a soma de taxas e margem for igual ou superior a 100%, não existe preço positivo finito pela fórmula.</p>
+
+<h2>Exemplo prático</h2>
+
+<p>Um produto custa R$ 50,00. Se as taxas sobre a venda são de 10% e você quer uma margem de 25%, o preço é R$ 50 ÷ 0,65 = R$ 76,92. Desse valor, cerca de R$ 7,69 são taxas e R$ 19,23 representam o lucro estimado. Inclua embalagem, frete pago por você e despesas relevantes no custo antes de calcular.</p>
+
+<h2>Perguntas frequentes</h2>
+
+<h3>Margem de lucro é a mesma coisa que markup?</h3>
+
+<p>Não. Margem compara lucro com o preço de venda; markup compara o preço ou acréscimo com o custo. Aplicar 25% sobre o custo não resulta em margem de 25% sobre a venda.</p>
+
+<h3>A calculadora inclui impostos?</h3>
+
+<p>Somente se você os informar entre as taxas ou custos. A tributação varia conforme o negócio e o tipo de operação.</p>
+
+<h3>E se eu vender em marketplaces?</h3>
+
+<p>Use a <a href="marketplace.html">calculadora de marketplaces</a> para separar comissões percentuais, tarifa fixa, frete e embalagem. Se precisar apresentar um preço ao cliente, utilize o <a href="orcamento.html">gerador de orçamentos</a>.</p>
+
+</section>
+</main>
+
+<footer>
+<div class="foot">
+<p>© 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.</p>
+<a href="index.html">Início</a>
+<a href="sobre.html">Sobre</a>
+<a href="privacidade.html">Privacidade</a>
+<a href="contato.html">Contato</a>
+</div>
+</footer>
+
+<script defer="" src="app.js?v=242"></script>
+<script src="analytics.js" defer></script>
+</body>
+</html>
