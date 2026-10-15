@@ -2,25 +2,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Calculadora de preço de venda para marketplaces | PreçoCerto Lab</title>
-<meta content="Simule preço de venda com comissão, tarifa fixa, frete, embalagem, tributos e margem desejada em marketplaces." name="description"/>
-<meta content="index,follow" name="robots"/>
-<meta content="#10243a" name="theme-color"/>
-<link href="https://matheusizidoro19-arch.github.io/precocerto-lab/marketplace.html" rel="canonical"/>
-<link href="style.css" rel="stylesheet"/>
+
+<meta name="description" content="Calculadora grátis de preço de venda para Shopee, Mercado Livre e outros marketplaces. Simule comissões, tarifas, frete, embalagem, impostos e lucro.">
+
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#10243a">
+
+<link rel="canonical" href="https://matheusizidoro19-arch.github.io/precocerto-lab/marketplace.html">
+<link rel="stylesheet" href="style.css">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PreçoCerto Lab">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Calculadora de preço de venda para marketplaces | PreçoCerto Lab">
-<meta property="og:description" content="Simule preço de venda com comissão, tarifa fixa, frete, embalagem, tributos e margem desejada em marketplaces.">
+<meta property="og:description" content="Simule gratuitamente o preço de venda considerando comissão, tarifa fixa, frete, tributos e margem de lucro.">
 <meta property="og:url" content="https://matheusizidoro19-arch.github.io/precocerto-lab/marketplace.html">
 <meta property="og:image" content="https://matheusizidoro19-arch.github.io/precocerto-lab/assets/og-marketplace.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 </head>
+
 <body>
 
 <header>
@@ -36,66 +42,82 @@
 </header>
 
 <main>
+
 <div class="eyebrow">Grátis · Sem cadastro</div>
 
-<h1>Calculadora para marketplaces</h1>
+<h1>Calculadora de preço de venda para marketplaces</h1>
 
-<p class="lead">Simule preços considerando comissões informadas por você, custos fixos e margem.</p>
+<p class="lead">
+Descubra quanto cobrar por seus produtos na Shopee, no Mercado Livre e em outros marketplaces. Simule comissões, tarifas fixas, frete, embalagem, impostos e a margem de lucro desejada.
+</p>
 
 <div class="grid">
 
 <section class="panel">
-<h2>Preencha os dados</h2>
+
+<h2>Calcule seu preço de venda</h2>
+
+<p>Informe os custos reais do produto e as taxas aplicáveis ao seu anúncio.</p>
 
 <form data-kind="marketplace" id="calculator">
+
 <div class="fields">
 
 <label>
 Custo do produto (R$)
-<input id="produto" min="0" required="" step="0.01" type="number" value="35"/>
+<input id="produto" min="0" required="" step="0.01" type="number" value="35">
 </label>
 
 <label>
 Embalagem e extras (R$)
-<input id="embalagem" min="0" required="" step="0.01" type="number" value="5"/>
+<input id="embalagem" min="0" required="" step="0.01" type="number" value="5">
 </label>
 
 <label>
 Frete pago pelo vendedor (R$)
-<input id="frete" min="0" required="" step="0.01" type="number" value="0"/>
+<input id="frete" min="0" required="" step="0.01" type="number" value="0">
 </label>
 
 <label>
 Comissão percentual (%)
-<input id="comissao" min="0" required="" step="0.1" type="number" value="15"/>
+<input id="comissao" min="0" required="" step="0.1" type="number" value="15">
 </label>
 
 <label>
 Tarifa fixa por venda (R$)
-<input id="tarifaFixa" min="0" required="" step="0.01" type="number" value="4"/>
+<input id="tarifaFixa" min="0" required="" step="0.01" type="number" value="4">
 </label>
 
 <label>
 Outros tributos sobre venda (%)
-<input id="imposto" min="0" required="" step="0.1" type="number" value="0"/>
+<input id="imposto" min="0" required="" step="0.1" type="number" value="0">
 </label>
 
 <label>
 Margem desejada sobre venda (%)
-<input id="margem" min="0" required="" step="0.1" type="number" value="20"/>
+<input id="margem" min="0" required="" step="0.1" type="number" value="20">
 </label>
 
 </div>
 
 <button class="button" type="submit">Calcular</button>
+
 </form>
+
+<p class="small">
+Os valores preenchidos inicialmente são apenas exemplos. Consulte as condições vigentes do seu marketplace antes de realizar uma venda.
+</p>
+
 </section>
 
 <section aria-live="polite" class="panel result">
-<h2>Resultado</h2>
+
+<h2>Resultado da simulação</h2>
 
 <p>Preço de venda sugerido</p>
+
 <div class="amount" id="preco">—</div>
+
 <p class="error" id="erro" role="status"></p>
 
 <div class="line">
@@ -113,31 +135,317 @@ Margem desejada sobre venda (%)
 <strong id="lucro">—</strong>
 </div>
 
-<p class="small">Valores estimados. Confira taxas, impostos, perdas e custos reais antes de decidir o preço.</p>
+<p class="small">
+O resultado é uma estimativa calculada com os valores informados. Considere também descontos, devoluções, impostos, perdas e outras despesas que possam afetar o lucro real.
+</p>
+
 </section>
 
 </div>
 
 <section class="panel article">
 
-<h2>Como calcular preço de venda em marketplaces?</h2>
-<p>Comece pelo custo de aquisição ou fabricação do produto. Some embalagem, frete que fica por sua conta e tarifas fixas por venda. Depois informe as comissões e os tributos cobrados como porcentagem do preço. A calculadora estima o preço necessário para cobrir os custos informados e atingir a margem sobre a venda escolhida.</p>
+<h2>Como usar a calculadora de Marketplace?</h2>
 
-<h2>Exemplo com comissão</h2>
-<p>Um produto custa R$ 40,00, não tem outros custos no exemplo, paga comissão de 15% e precisa de margem de 20%. O preço sugerido é R$ 40 ÷ (1 − 0,15 − 0,20) = R$ 61,54. A comissão estimada é R$ 9,23 e o lucro estimado é R$ 12,31, considerando os arredondamentos.</p>
+<p>
+Esta calculadora ajuda vendedores a estimar o preço necessário para cobrir custos e alcançar uma margem de lucro desejada.
+</p>
 
-<h2>Perguntas frequentes</h2>
+<p>
+Você pode utilizá-la para comparar cenários de venda na Shopee, no Mercado Livre e em outras plataformas, desde que informe as taxas correspondentes.
+</p>
 
-<h3>As taxas de Mercado Livre e Shopee são automáticas?</h3>
-<p>Não. Você deve consultar as condições atuais da plataforma e preencher os campos. Taxas podem variar por categoria, anúncio, programa de frete e outras regras.</p>
+<h3>1. Informe o custo do produto</h3>
 
-<h3>Onde colocar frete grátis e embalagem?</h3>
-<p>Se você paga o frete, informe esse valor no campo de frete do vendedor. Embalagem e outros gastos por pedido entram nos custos extras.</p>
+<p>
+Digite quanto você paga para comprar ou fabricar uma unidade. Se fabricar o produto, considere os materiais e as despesas diretamente relacionadas à produção.
+</p>
 
-<h3>Como conferir minha margem?</h3>
-<p>O resultado é uma estimativa, não uma garantia de lucro. Confira tributos, devoluções, descontos e despesas operacionais. Para entender a diferença entre margem e markup, consulte a <a href="margem-lucro.html">calculadora de margem</a>.</p>
+<h3>2. Acrescente embalagem e frete</h3>
+
+<p>
+Inclua o custo de caixas, envelopes, etiquetas e outros materiais necessários para preparar o pedido.
+</p>
+
+<p>
+Quando o frete for pago por você, informe o valor correspondente no campo de frete do vendedor.
+</p>
+
+<h3>3. Preencha a comissão</h3>
+
+<p>
+Informe a comissão percentual cobrada pela plataforma na sua operação.
+</p>
+
+<p>
+As comissões podem variar conforme a categoria, o tipo de anúncio, a modalidade de envio e as condições comerciais. A calculadora não consulta automaticamente as taxas.
+</p>
+
+<h3>4. Considere as tarifas fixas</h3>
+
+<p>
+Se houver uma cobrança fixa por venda, informe esse valor separadamente. Tarifas fixas podem ter grande impacto em produtos de baixo preço.
+</p>
+
+<h3>5. Informe os tributos</h3>
+
+<p>
+Se você tiver tributos calculados como porcentagem do preço de venda, informe o percentual correspondente.
+</p>
+
+<p>
+A ferramenta não determina o enquadramento tributário do negócio. Consulte suas obrigações fiscais para utilizar valores adequados.
+</p>
+
+<h3>6. Escolha a margem desejada</h3>
+
+<p>
+A margem é a parcela do preço final que você deseja obter como lucro, depois dos custos e taxas considerados no cálculo.
+</p>
+
+<p>
+O resultado será atualizado com o preço de venda sugerido, o custo total, as comissões e tributos estimados e o lucro aproximado.
+</p>
 
 </section>
+
+<section class="panel article">
+
+<h2>Exemplo prático: calculando o preço de venda</h2>
+
+<p>
+Imagine um produto com os seguintes custos e condições hipotéticas:
+</p>
+
+<ul>
+<li>Custo do produto: R$ 35,00.</li>
+<li>Embalagem: R$ 5,00.</li>
+<li>Frete pago pelo vendedor: R$ 10,00.</li>
+<li>Tarifa fixa por venda: R$ 4,00.</li>
+<li>Comissão: 15%.</li>
+<li>Tributos sobre a venda: 5%.</li>
+<li>Margem desejada: 20%.</li>
+</ul>
+
+<h3>Primeiro: calcular os custos fixos</h3>
+
+<p>
+Somando produto, embalagem, frete e tarifa fixa:
+</p>
+
+<p><strong>R$ 35 + R$ 5 + R$ 10 + R$ 4 = R$ 54,00</strong></p>
+
+<h3>Segundo: somar os percentuais</h3>
+
+<p>
+A comissão é de 15%, os tributos representam 5% e a margem desejada é de 20%.
+</p>
+
+<p><strong>15% + 5% + 20% = 40%</strong></p>
+
+<p>
+Portanto, 60% do preço de venda precisam cobrir os R$ 54,00 de custos fixos.
+</p>
+
+<h3>Terceiro: calcular o preço sugerido</h3>
+
+<p><strong>Preço = 54 ÷ (1 − 0,40)</strong></p>
+
+<p><strong>Preço = R$ 90,00</strong></p>
+
+<h3>Resultado do exemplo</h3>
+
+<ul>
+<li>Preço sugerido: R$ 90,00.</li>
+<li>Custos fixos totais: R$ 54,00.</li>
+<li>Comissão estimada: R$ 13,50.</li>
+<li>Tributos estimados: R$ 4,50.</li>
+<li>Lucro estimado: R$ 18,00.</li>
+</ul>
+
+<p>
+Esse exemplo é apenas uma simulação matemática. Os percentuais apresentados não representam necessariamente as taxas atuais da Shopee ou do Mercado Livre.
+</p>
+
+<p>
+Você pode reproduzir o exemplo preenchendo os campos da calculadora no início desta página.
+</p>
+
+</section>
+
+<section class="panel article">
+
+<h2>Qual fórmula a calculadora utiliza?</h2>
+
+<p>
+A ferramenta soma os custos fixos informados e considera as taxas percentuais e a margem desejada sobre o preço final.
+</p>
+
+<p><strong>Preço de venda = custos fixos ÷ (1 − comissão − tributos percentuais − margem)</strong></p>
+
+<p>
+Os percentuais devem ser convertidos em números decimais.
+</p>
+
+<p>
+Se a comissão for de 15% e a margem desejada for de 20%, por exemplo, esses valores correspondem a 0,15 e 0,20 na fórmula.
+</p>
+
+<p>
+Se a soma das taxas percentuais e da margem atingir 100% ou mais, não existe um preço positivo finito que satisfaça a fórmula para custos positivos. Nesse caso, a calculadora exibe uma mensagem de validação.
+</p>
+
+<h2>Como calcular o lucro na Shopee?</h2>
+
+<p>
+Para estimar o lucro de um produto vendido na Shopee, considere o valor efetivamente recebido pela venda e desconte os custos do produto, as comissões, as tarifas aplicáveis, o frete pago pelo vendedor e os demais gastos.
+</p>
+
+<p>
+Como as condições comerciais podem mudar, consulte sempre os valores associados ao seu anúncio antes de preencher a calculadora.
+</p>
+
+<h2>Como calcular o lucro no Mercado Livre?</h2>
+
+<p>
+O princípio é semelhante: identifique as cobranças aplicáveis ao tipo de anúncio, à categoria do produto e às condições de envio.
+</p>
+
+<p>
+Depois, informe esses valores na calculadora para obter uma estimativa do preço necessário e do lucro por unidade.
+</p>
+
+<p>
+Para entender melhor os custos e ver mais exemplos, consulte nosso guia:
+</p>
+
+<p>
+<a class="button" href="lucro-shopee-mercado-livre.html">Como calcular lucro na Shopee e Mercado Livre</a>
+</p>
+
+</section>
+
+<section class="panel article">
+
+<h2>Como evitar prejuízos nas vendas?</h2>
+
+<p>
+Um erro comum é definir o preço considerando apenas quanto custou comprar o produto.
+</p>
+
+<p>
+Para ter uma estimativa mais completa, considere também as despesas que reduzem o valor recebido pelo vendedor.
+</p>
+
+<ul>
+<li>Confira as comissões atualizadas da plataforma.</li>
+<li>Verifique se existe tarifa fixa por pedido.</li>
+<li>Considere embalagem, etiquetas e materiais de envio.</li>
+<li>Inclua o frete quando ele for pago por você.</li>
+<li>Não esqueça dos tributos aplicáveis à operação.</li>
+<li>Analise o impacto de cupons e descontos.</li>
+<li>Considere perdas, devoluções e anúncios pagos.</li>
+<li>Recalcule sempre que os custos mudarem.</li>
+</ul>
+
+<p>
+Mesmo com uma simulação bem preenchida, o lucro real pode variar em função de despesas não previstas e das condições efetivas da venda.
+</p>
+
+</section>
+
+<section class="panel article">
+
+<h2>Perguntas frequentes sobre precificação em marketplaces</h2>
+
+<h3>As taxas da Shopee e do Mercado Livre são automáticas?</h3>
+
+<p>
+Não. A calculadora utiliza exclusivamente os percentuais e valores informados pelo vendedor. Consulte as condições atualizadas de cada plataforma.
+</p>
+
+<h3>Como incluir o frete grátis?</h3>
+
+<p>
+Quando o frete for gratuito para o comprador, mas tiver um custo para o vendedor, informe a despesa efetiva no campo de frete pago pelo vendedor.
+</p>
+
+<h3>O que significa tarifa fixa por venda?</h3>
+
+<p>
+É uma cobrança de valor determinado por operação, quando aplicável. Diferentemente de uma comissão percentual, ela não cresce proporcionalmente ao preço do produto.
+</p>
+
+<h3>Como calcular a margem de lucro?</h3>
+
+<p>
+A margem representa o lucro como porcentagem do preço de venda. Ela é diferente de simplesmente acrescentar uma porcentagem ao custo do produto.
+</p>
+
+<p>
+Você também pode utilizar nossa <a href="margem-lucro.html">calculadora de margem de lucro</a> para comparar os resultados.
+</p>
+
+<h3>O preço sugerido já inclui todos os impostos?</h3>
+
+<p>
+Não. O cálculo considera somente os tributos que você informar entre os percentuais ou custos. Ele não calcula automaticamente todas as obrigações tributárias.
+</p>
+
+<h3>Posso usar a calculadora para outros marketplaces?</h3>
+
+<p>
+Sim. A fórmula pode ser utilizada para simular vendas em diferentes plataformas, desde que as taxas e os custos aplicáveis sejam informados corretamente.
+</p>
+
+<h3>Posso vender abaixo do preço sugerido?</h3>
+
+<p>
+O preço sugerido é uma referência baseada nos custos e na margem escolhida. Vender abaixo dele pode reduzir o lucro ou gerar prejuízo, dependendo das despesas envolvidas.
+</p>
+
+<h3>A calculadora garante o lucro apresentado?</h3>
+
+<p>
+Não. O lucro é uma estimativa baseada nos valores preenchidos. Despesas adicionais, descontos, devoluções e outras condições podem alterar o resultado efetivo.
+</p>
+
+</section>
+
+<section class="panel article">
+
+<h2>Outras ferramentas gratuitas do PreçoCerto Lab</h2>
+
+<p>
+Além da calculadora de Marketplace, você pode utilizar outras ferramentas para organizar seus preços e propostas comerciais.
+</p>
+
+<h3>Calculadora de margem de lucro</h3>
+
+<p>
+Simule um preço de venda considerando o custo do produto, taxas percentuais e a margem desejada.
+</p>
+
+<p><a href="margem-lucro.html">Abrir calculadora de margem</a></p>
+
+<h3>Calculadora de impressão 3D</h3>
+
+<p>
+Estime custos de filamento, consumo de energia, tempo de máquina e lucro por peça.
+</p>
+
+<p><a href="impressao-3d.html">Abrir calculadora de impressão 3D</a></p>
+
+<h3>Gerador de orçamentos em PDF</h3>
+
+<p>
+Depois de calcular seu preço, prepare uma proposta simples e salve em PDF diretamente pelo navegador.
+</p>
+
+<p><a href="orcamento.html">Criar orçamento gratuito</a></p>
+
+</section>
+
 </main>
 
 <footer>
@@ -150,7 +458,8 @@ Margem desejada sobre venda (%)
 </div>
 </footer>
 
-<script defer="" src="app.js?v=242"></script>
+<script defer src="app.js?v=243"></script>
 <script src="analytics.js" defer></script>
+
 </body>
 </html>
