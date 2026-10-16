@@ -30,6 +30,33 @@
     .kit-marketplace-banner .kit-action a:hover,.kit-marketplace-banner .kit-action a:focus-visible{background:#075843}
     .kit-marketplace-banner .kit-action span{font-weight:750;color:#10243a;white-space:nowrap}
     @media(max-width:720px){.kit-marketplace-banner{flex-direction:column;align-items:stretch;padding:19px}.kit-marketplace-banner .kit-action{align-items:stretch}.kit-marketplace-banner .kit-action a{text-align:center}}
+    .risco-lab{margin:28px 0;border:1px solid #b9d3e9;background:#f8fbff;border-radius:17px;padding:22px}
+    .risco-tag{display:inline-block;border-radius:30px;padding:6px 12px;background:#deecfa;color:#164e83;font-size:.78rem;font-weight:750;margin-bottom:8px}
+    .risco-lab h2{margin:4px 0 8px;color:#10243a}
+    .risco-lab .risco-intro{max-width:850px;color:#3b556e;margin:0 0 19px}
+    .risco-colunas{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
+    .risco-controles,.risco-saida{padding:17px;border:1px solid #dae4ef;background:white;border-radius:13px}
+    .risco-controles{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+    .risco-controles label{display:flex;flex-direction:column;gap:5px;font-size:.85rem;font-weight:650;color:#243b52}
+    .risco-controles input[type=number]{width:100%;box-sizing:border-box;padding:10px;border:1px solid #c9d6e4;border-radius:8px;font-size:1rem}
+    .risco-controles .risco-sincronizar{grid-column:1/-1;display:flex;flex-direction:row;align-items:flex-start;gap:8px;font-weight:500}
+    .risco-controles .risco-sincronizar input{margin-top:4px}
+    .risco-saida .risco-estado{margin:0 0 12px;font-weight:750;color:#164f67}
+    .risco-saida .risco-estado.risco-alerta{color:#a32a22}
+    .risco-metricas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .risco-metrica{border:1px solid #dce6ef;background:#f6f9fc;border-radius:10px;padding:11px}
+    .risco-metrica strong{display:block;font-size:1.35rem;color:#10243a;margin:5px 0}
+    .risco-metrica span{font-size:.8rem;color:#486077}
+    .risco-leitura{margin:13px 0 0;color:#3b556e;font-size:.89rem;line-height:1.65}
+    .risco-tabela{width:100%;margin-top:18px;border-collapse:collapse;font-variant-numeric:tabular-nums}
+    .risco-tabela th,.risco-tabela td{border-bottom:1px solid #dce5ef;padding:11px 9px;text-align:left;font-size:.89rem}
+    .risco-tabela th{color:#253f59;background:#e9f1f9}
+    .risco-tabela tr.risco-negativo td:last-child{color:#a32a22;font-weight:750}
+    .risco-tabela tr.risco-positivo td:last-child{color:#0b735c;font-weight:750}
+    .risco-nota{margin:15px 0 0;color:#51677b;font-size:.82rem;line-height:1.6}
+    .risco-erro{color:#a32a22;font-weight:750}
+    @media(max-width:820px){.risco-colunas{grid-template-columns:1fr}.risco-lab{padding:17px}}
+    @media(max-width:460px){.risco-controles{grid-template-columns:1fr}.risco-metricas{grid-template-columns:1fr}.risco-tabela th,.risco-tabela td{padding:9px 4px;font-size:.77rem}}
   </style>
 </head>
 <body>
@@ -67,6 +94,7 @@
       </form>
       <p class="small">Os valores preenchidos inicialmente são apenas exemplos. Consulte as condições vigentes do seu marketplace antes de realizar uma venda.</p>
     </section>
+
     <section aria-live="polite" class="panel result">
       <h2>Resultado da simulação</h2>
       <p>Preço de venda sugerido</p>
@@ -78,6 +106,69 @@
       <p class="small">O resultado é uma estimativa calculada com os valores informados. Considere também descontos, devoluções, impostos, perdas e outras despesas que possam afetar o lucro real.</p>
     </section>
   </div>
+
+  <section class="risco-lab" aria-labelledby="risco-titulo" id="teste-resistencia-lucro">
+    <span class="risco-tag">NOVO · TESTE DE RESISTÊNCIA DO LUCRO</span>
+    <h2 id="risco-titulo">Seu preço aguenta desconto, anúncios e custos extras?</h2>
+    <p class="risco-intro">Use os mesmos custos e taxas preenchidos na calculadora acima. Teste uma promoção e descubra o limite estimado de desconto antes do prejuízo, sem precisar fazer outra conta.</p>
+    <div class="risco-colunas">
+      <div class="risco-controles">
+        <label for="risco-preco">Preço anunciado (R$)<input id="risco-preco" type="number" value="67.69" min="0.01" step="0.01" inputmode="decimal"></label>
+        <label for="risco-desconto">Desconto na promoção (%)<input id="risco-desconto" type="number" value="10" min="0" max="99.99" step="0.1" inputmode="decimal"></label>
+        <label for="risco-anuncios">Publicidade sobre a venda (%)<input id="risco-anuncios" type="number" value="3" min="0" max="100" step="0.1" inputmode="decimal"></label>
+        <label for="risco-extra">Custo inesperado por unidade (R$)<input id="risco-extra" type="number" value="3" min="0" step="0.01" inputmode="decimal"></label>
+        <label class="risco-sincronizar"><input id="risco-automatico" type="checkbox" checked> Usar automaticamente o preço sugerido pela calculadora acima</label>
+      </div>
+      <div class="risco-saida" aria-live="polite" aria-atomic="true">
+        <p id="risco-estado" class="risco-estado">Calculando os limites da sua venda…</p>
+        <div class="risco-metricas">
+          <div class="risco-metrica"><span>Lucro após a promoção e os custos extras</span><strong id="risco-lucro">—</strong><span id="risco-margem">Margem: —</span></div>
+          <div class="risco-metrica"><span>Desconto máximo sem prejuízo*</span><strong id="risco-limite">—</strong><span id="risco-limite-reais">No preço informado: —</span></div>
+          <div class="risco-metrica"><span>Menor preço de venda sem prejuízo*</span><strong id="risco-equilibrio">—</strong><span>Com publicidade e custos extras informados</span></div>
+          <div class="risco-metrica"><span>Teto de publicidade sem prejuízo*</span><strong id="risco-teto-ads">—</strong><span id="risco-teto-ads-nota">Do preço após o desconto</span></div>
+        </div>
+        <p class="risco-leitura" id="risco-leitura"></p>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="risco-tabela" aria-label="Comparação dos cenários de venda">
+        <thead>
+          <tr>
+            <th>Cenário</th>
+            <th>Valor recebido</th>
+            <th>Taxas e anúncios</th>
+            <th>Custos fixos</th>
+            <th>Lucro estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="risco-row-base">
+            <td>Venda sem promoção</td>
+            <td id="risco-base-venda">—</td>
+            <td id="risco-base-taxas">—</td>
+            <td id="risco-base-custos">—</td>
+            <td id="risco-base-lucro">—</td>
+          </tr>
+          <tr id="risco-row-promocao">
+            <td>Desconto + anúncios</td>
+            <td id="risco-promo-venda">—</td>
+            <td id="risco-promo-taxas">—</td>
+            <td id="risco-promo-custos">—</td>
+            <td id="risco-promo-lucro">—</td>
+          </tr>
+          <tr id="risco-row-critico">
+            <td>Desconto + anúncios + custo extra</td>
+            <td id="risco-crit-venda">—</td>
+            <td id="risco-crit-taxas">—</td>
+            <td id="risco-crit-custos">—</td>
+            <td id="risco-crit-lucro">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="risco-nota">*Os limites indicam o ponto de equilíbrio somente para os custos declarados, não uma garantia de lucro. Comissão, tributos e publicidade são simulados sobre o valor após o desconto; a tarifa fixa continua por unidade. Em marketplaces com taxas por faixa de preço, confirme novamente as cobranças se o desconto mudar a faixa. Frete, devoluções e outros gastos não incluídos podem reduzir o resultado. Os números não são enviados a um servidor.</p>
+  </section>
 
   <section class="kit-marketplace-banner" aria-labelledby="kit-marketplace-heading">
     <div>
@@ -99,7 +190,7 @@
     <p>Digite quanto você paga para comprar ou fabricar uma unidade. Se fabricar o produto, considere os materiais e as despesas diretamente relacionadas à produção.</p>
     <h3>2. Acrescente embalagem e frete</h3>
     <p>Inclua o custo de caixas, envelopes, etiquetas e outros materiais necessários para preparar o pedido.</p>
-    <p>Quando o frete for pago por você, informe o valor correspondente no campo de frete do vendedor.</p>
+    <p>Quando o frete for pago por você, informe esse valor no campo de frete do vendedor.</p>
     <h3>3. Preencha a comissão</h3>
     <p>Informe a comissão percentual cobrada pela plataforma na sua operação.</p>
     <p>As comissões podem variar conforme a categoria, o tipo de anúncio, a modalidade de envio e as condições comerciais. A calculadora não consulta automaticamente as taxas.</p>
@@ -216,6 +307,7 @@
     <p><a href="orcamento.html">Criar orçamento gratuito</a></p>
   </section>
 </main>
+
 <footer>
   <div class="foot">
     <p>© 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.</p>
@@ -225,19 +317,308 @@
     <a href="contato.html">Contato</a>
   </div>
 </footer>
+
 <script defer src="app.js?v=243"></script>
 <script src="analytics.js" defer></script>
+
 <script>
   (() => {
     const link = document.getElementById("conhecer-kit-precocerto");
     if (!link) return;
     link.addEventListener("click", () => {
       try {
-        if (localStorage.getItem("precocerto_analytics_consent") === "accepted" && typeof window.gtag === "function") {
-          window.gtag("event", "kit_offer_click", { origem: "marketplace", produto: "kit_precocerto_v1" });
+        if (
+          localStorage.getItem("precocerto_analytics_consent") === "accepted" &&
+          typeof window.gtag === "function"
+        ) {
+          window.gtag("event", "kit_offer_click", {
+            origem: "marketplace",
+            produto: "kit_precocerto_v1"
+          });
         }
       } catch {}
     });
+  })();
+</script>
+
+<script>
+  (() => {
+    const $ = id => document.getElementById(id);
+
+    const moeda = n =>
+      Number.isFinite(n)
+        ? n.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+          })
+        : "—";
+
+    const percentual = n =>
+      Number.isFinite(n)
+        ? n.toLocaleString("pt-BR", {
+            maximumFractionDigits: 1,
+            minimumFractionDigits: 1
+          }) + "%"
+        : "—";
+
+    const calc = $("calculator");
+    const sync = $("risco-automatico");
+
+    const entrada = [
+      "risco-preco",
+      "risco-desconto",
+      "risco-anuncios",
+      "risco-extra"
+    ];
+
+    const origem = [
+      "produto",
+      "embalagem",
+      "frete",
+      "comissao",
+      "tarifaFixa",
+      "imposto",
+      "margem"
+    ];
+
+    const number = id => {
+      const input = $(id);
+      if (!input || input.value.trim() === "") return NaN;
+      return Number(input.value);
+    };
+
+    const set = (id, value) => {
+      $(id).textContent = value;
+    };
+
+    const cor = (id, lucro) => {
+      const row = $(id);
+      row.classList.toggle("risco-negativo", lucro < -0.005);
+      row.classList.toggle("risco-positivo", lucro >= -0.005);
+    };
+
+    const limpar = mensagem => {
+      $("risco-estado").textContent = mensagem;
+      $("risco-estado").classList.add("risco-alerta");
+
+      [
+        "risco-lucro",
+        "risco-margem",
+        "risco-limite",
+        "risco-limite-reais",
+        "risco-equilibrio",
+        "risco-teto-ads",
+        "risco-teto-ads-nota",
+        "risco-leitura",
+        "risco-base-venda",
+        "risco-base-taxas",
+        "risco-base-custos",
+        "risco-base-lucro",
+        "risco-promo-venda",
+        "risco-promo-taxas",
+        "risco-promo-custos",
+        "risco-promo-lucro",
+        "risco-crit-venda",
+        "risco-crit-taxas",
+        "risco-crit-custos",
+        "risco-crit-lucro"
+      ].forEach(id => set(id, "—"));
+
+      [
+        "risco-row-base",
+        "risco-row-promocao",
+        "risco-row-critico"
+      ].forEach(id => {
+        $(id).classList.remove("risco-negativo", "risco-positivo");
+      });
+    };
+
+    function atualizar() {
+      const v = Object.fromEntries(
+        origem.map(id => [id, number(id)])
+      );
+
+      const valores = Object.values(v);
+
+      if (
+        valores.some(n => !Number.isFinite(n) || n < 0) ||
+        v.comissao + v.imposto + v.margem >= 100
+      ) {
+        limpar("Revise os custos e percentuais da calculadora principal.");
+        return;
+      }
+
+      const custo =
+        v.produto + v.embalagem + v.frete + v.tarifaFixa;
+
+      const baseRate = (v.comissao + v.imposto) / 100;
+
+      const precoSugerido =
+        custo / (1 - baseRate - v.margem / 100);
+
+      if (sync.checked) {
+        $("risco-preco").value = precoSugerido.toFixed(2);
+      }
+
+      const p = number("risco-preco");
+      const d = number("risco-desconto");
+      const ads = number("risco-anuncios");
+      const extra = number("risco-extra");
+
+      if (
+        [p, d, ads, extra].some(x => !Number.isFinite(x)) ||
+        p <= 0 ||
+        d < 0 ||
+        d >= 100 ||
+        ads < 0 ||
+        ads > 100 ||
+        extra < 0 ||
+        baseRate + ads / 100 >= 1
+      ) {
+        limpar("Informe um preço positivo, desconto menor que 100% e taxas válidas.");
+        return;
+      }
+
+      const precoPromo = p * (1 - d / 100);
+      const ratePromo = baseRate + ads / 100;
+      const custoStress = custo + extra;
+
+      const lucroBase = p * (1 - baseRate) - custo;
+
+      const lucroPromo =
+        precoPromo * (1 - ratePromo) - custo;
+
+      const lucroStress =
+        precoPromo * (1 - ratePromo) - custoStress;
+
+      const pontoEquilibrio =
+        custoStress / (1 - ratePromo);
+
+      const descontoLimiteBruto =
+        (1 - pontoEquilibrio / p) * 100;
+
+      const descontoLimite =
+        Math.max(0, descontoLimiteBruto);
+
+      const limiteAdsBruto =
+        100 * (1 - baseRate - custoStress / precoPromo);
+
+      const limiteAds =
+        Math.max(0, limiteAdsBruto);
+
+      const row = (prefix, preco, rate, custoFixo, lucro) => {
+        set(prefix + "-venda", moeda(preco));
+        set(prefix + "-taxas", moeda(preco * rate));
+        set(prefix + "-custos", moeda(custoFixo));
+        set(prefix + "-lucro", moeda(lucro));
+      };
+
+      row("risco-base", p, baseRate, custo, lucroBase);
+      row("risco-promo", precoPromo, ratePromo, custo, lucroPromo);
+      row("risco-crit", precoPromo, ratePromo, custoStress, lucroStress);
+
+      cor("risco-row-base", lucroBase);
+      cor("risco-row-promocao", lucroPromo);
+      cor("risco-row-critico", lucroStress);
+
+      set("risco-lucro", moeda(lucroStress));
+
+      set(
+        "risco-margem",
+        "Margem calculada: " +
+          percentual(lucroStress / precoPromo * 100)
+      );
+
+      set("risco-limite", percentual(descontoLimite));
+
+      set(
+        "risco-limite-reais",
+        descontoLimiteBruto >= 0
+          ? "Limite aproximado: " +
+              moeda(p * descontoLimite / 100)
+          : "O preço informado já está abaixo do equilíbrio"
+      );
+
+      set("risco-equilibrio", moeda(pontoEquilibrio));
+      set("risco-teto-ads", percentual(limiteAds));
+
+      set(
+        "risco-teto-ads-nota",
+        limiteAdsBruto >= 0
+          ? "Publicidade total máxima; cenário atual: " +
+              percentual(ads)
+          : "Nem com 0% de anúncios há equilíbrio"
+      );
+
+      const prejuizo = lucroStress < -0.005;
+
+      const perto =
+        !prejuizo && lucroStress / precoPromo < 0.05;
+
+      const status = prejuizo
+        ? "Atenção: este cenário apresenta prejuízo nos custos informados."
+        : perto
+          ? "Atenção: sua margem ficou muito apertada neste cenário."
+          : "O cenário continua lucrativo com os custos informados.";
+
+      set("risco-estado", status);
+
+      $("risco-estado").classList.toggle(
+        "risco-alerta",
+        prejuizo || perto
+      );
+
+      const diferenca = lucroBase - lucroStress;
+
+      set(
+        "risco-leitura",
+        "Com a promoção, a queda estimada do lucro por unidade em relação à venda sem promoção é de " +
+          moeda(diferenca) +
+          ". O preço efetivamente recebido será " +
+          moeda(precoPromo) +
+          ". O desconto limite pressupõe as taxas e os custos extras atualmente informados."
+      );
+    }
+
+    let eventoUsoEnviado = false;
+
+    const registrarUso = () => {
+      if (eventoUsoEnviado) return;
+
+      try {
+        if (
+          localStorage.getItem("precocerto_analytics_consent") === "accepted" &&
+          typeof window.gtag === "function"
+        ) {
+          window.gtag("event", "teste_resistencia_usado", {
+            ferramenta: "marketplace"
+          });
+          eventoUsoEnviado = true;
+        }
+      } catch {}
+    };
+
+    [...origem, ...entrada].forEach(id =>
+      $(id).addEventListener("input", () => {
+        if (id === "risco-preco") {
+          sync.checked = false;
+        }
+
+        if (entrada.includes(id)) {
+          registrarUso();
+        }
+
+        atualizar();
+      })
+    );
+
+    sync.addEventListener("change", atualizar);
+
+    calc.addEventListener("reset", () =>
+      setTimeout(atualizar, 0)
+    );
+
+    atualizar();
   })();
 </script>
 </body>
