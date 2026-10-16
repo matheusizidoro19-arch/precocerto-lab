@@ -2,143 +2,411 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculadoras de preço de venda, lucro e impressão 3D | PreçoCerto Lab</title>
-<meta name="description" content="Use calculadoras gratuitas para estimar preço de venda, margem de lucro, custos de impressão 3D e orçamentos em PDF.">
-<meta name="robots" content="index,follow">
-<meta name="theme-color" content="#10243a">
-<link rel="canonical" href="https://matheusizidoro19-arch.github.io/precocerto-lab/">
-<link rel="stylesheet" href="style.css">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="PreçoCerto Lab">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="Calculadoras de preço de venda, lucro e impressão 3D | PreçoCerto Lab">
-<meta property="og:description" content="Use calculadoras gratuitas para estimar preço de venda, margem de lucro, custos de impressão 3D e orçamentos em PDF.">
-<meta property="og:url" content="https://matheusizidoro19-arch.github.io/precocerto-lab/">
-<meta property="og:image" content="https://matheusizidoro19-arch.github.io/precocerto-lab/assets/og-preco-certo.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Calculadoras de preço de venda, lucro e impressão 3D | PreçoCerto Lab</title>
+
+  <meta name="description" content="Use calculadoras gratuitas para estimar preço de venda, margem de lucro, custos de impressão 3D e orçamentos em PDF.">
+
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#10243a">
+
+  <link rel="canonical" href="https://matheusizidoro19-arch.github.io/precocerto-lab/">
+  <link rel="stylesheet" href="style.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PreçoCerto Lab">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Calculadoras de preço de venda, lucro e impressão 3D | PreçoCerto Lab">
+  <meta property="og:description" content="Use calculadoras gratuitas para estimar preço de venda, margem de lucro, custos de impressão 3D e orçamentos em PDF.">
+  <meta property="og:url" content="https://matheusizidoro19-arch.github.io/precocerto-lab/">
+  <meta property="og:image" content="https://matheusizidoro19-arch.github.io/precocerto-lab/assets/og-preco-certo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    .home-kit {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 25px;
+      margin: 28px 0;
+      padding: 25px;
+      background: #eaf5f1;
+      border: 1px solid #bfdad3;
+      border-radius: 16px;
+    }
+
+    .home-kit-tag {
+      display: inline-block;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: #d4eee5;
+      color: #12634f;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 11px;
+    }
+
+    .home-kit h2 {
+      margin: 0 0 10px;
+      color: #10243a;
+      font-size: 1.5rem;
+    }
+
+    .home-kit p {
+      margin: 0 0 10px;
+      color: #345c55;
+      line-height: 1.7;
+    }
+
+    .home-kit-details {
+      font-size: 0.88rem;
+    }
+
+    .home-kit-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 215px;
+    }
+
+    .home-kit-price {
+      color: #10243a;
+      font-size: 2rem;
+      font-weight: 850;
+      line-height: 1.2;
+    }
+
+    .home-kit-payment {
+      font-size: 0.82rem;
+      color: #45645b;
+    }
+
+    .home-kit-button {
+      display: inline-block;
+      background: #0b735c;
+      color: #ffffff;
+      padding: 13px 19px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: 750;
+      text-align: center;
+    }
+
+    .home-kit-button:hover,
+    .home-kit-button:focus-visible {
+      background: #075843;
+      color: #ffffff;
+    }
+
+    @media (max-width: 760px) {
+      .home-kit {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 15px;
+      }
+
+      .home-kit-action {
+        align-items: stretch;
+        min-width: 0;
+      }
+
+      .home-kit-price {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media print {
+      .home-kit {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
 <header>
-<nav>
-<a class="brand" href="index.html">◈ PreçoCerto Lab</a>
-<div>
-<a href="impressao-3d.html">Impressão 3D</a>
-<a href="margem-lucro.html">Margem</a>
-<a href="marketplace.html">Marketplace</a>
-<a href="orcamento.html">Orçamentos</a>
-</div>
-</nav>
+  <nav aria-label="Navegação principal">
+    <a class="brand" href="index.html">◈ PreçoCerto Lab</a>
+
+    <div>
+      <a href="impressao-3d.html">Impressão 3D</a>
+      <a href="margem-lucro.html">Margem</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="orcamento.html">Orçamentos</a>
+    </div>
+  </nav>
 </header>
+
 <main>
-<div class="eyebrow">Ferramentas gratuitas · Sem cadastro</div>
-<h1>Calcule custos, preços e lucros com clareza</h1>
-<p class="lead">
-Ferramentas para pequenos fabricantes, vendedores e prestadores de serviços.
-Escolha uma calculadora, informe seus custos e confira a lógica do resultado.
-</p>
 
-<section class="cards">
-<article class="panel">
-<h2>Impressão 3D</h2>
-<p>Considere filamento, energia, máquina e margem de venda.</p>
-<a class="button" href="impressao-3d.html">Abrir calculadora</a>
-</article>
+  <div class="eyebrow">Ferramentas gratuitas · Sem cadastro</div>
 
-<article class="panel">
-<h2>Margem de lucro</h2>
-<p>Calcule o preço necessário para a margem desejada.</p>
-<a class="button" href="margem-lucro.html">Abrir calculadora</a>
-</article>
+  <h1>Calcule custos, preços e lucros com clareza</h1>
 
-<article class="panel">
-<h2>Marketplaces</h2>
-<p>Simule taxas, frete e comissões com valores informados por você.</p>
-<a class="button" href="marketplace.html">Abrir calculadora</a>
-</article>
+  <p class="lead">
+    Ferramentas para pequenos fabricantes, vendedores e prestadores de serviços.
+    Escolha uma calculadora, informe seus custos e confira a lógica do resultado.
+  </p>
 
-<article class="panel">
-<h2>Orçamentos em PDF</h2>
-<p>Prepare uma proposta simples e salve usando o navegador.</p>
-<a class="button" href="orcamento.html">Criar orçamento</a>
-</article>
-</section>
+  <section class="cards" aria-label="Ferramentas gratuitas">
 
-<section class="panel article">
-<h2>Qual calculadora usar?</h2>
-<p>
-Se você fabrica peças em impressora 3D, comece pela
-<a href="impressao-3d.html">calculadora de impressão 3D</a>:
-ela considera material, eletricidade e horas de máquina.
-Para produtos e serviços em geral, use a
-<a href="margem-lucro.html">calculadora de margem de lucro</a>.
-Quem vende em plataformas pode simular comissões e tarifas na
-<a href="marketplace.html">calculadora de marketplaces</a>.
-Depois de calcular o preço, você pode criar um documento no
-<a href="orcamento.html">gerador de orçamentos em PDF</a>.
-</p>
+    <article class="panel">
+      <h2>Impressão 3D</h2>
 
-<h2>Como definir um preço de venda?</h2>
-<p>
-Liste os custos diretos, como material e embalagem, e os indiretos,
-como energia e operação.
-Identifique as taxas cobradas sobre a venda e escolha uma margem realista.
-A margem de lucro é a porcentagem do preço final que sobra depois dos
-custos considerados; ela não é igual ao markup, que relaciona lucro e custo.
-</p>
+      <p>
+        Considere filamento, energia, máquina e margem de venda.
+      </p>
 
-<h2>O resultado é um preço obrigatório?</h2>
-<p>
-Não. As ferramentas apresentam estimativas com os números que você informar.
-Considere também impostos, devoluções, perdas, concorrência, demanda e regras
-de cada plataforma. Confira os valores antes de fazer uma oferta comercial.
-</p>
-</section>
+      <a class="button" href="impressao-3d.html">
+        Abrir calculadora
+      </a>
+    </article>
 
-<section class="panel article">
-<h2>Guias para calcular seus preços</h2>
-<p>
-Além das calculadoras, consulte exemplos de custos, taxas e margens para
-entender cada etapa da precificação.
-</p>
+    <article class="panel">
+      <h2>Margem de lucro</h2>
 
-<h3>
-<a href="quanto-custa-impressao-3d.html">Quanto custa uma impressão 3D?</a>
-</h3>
-<p>
-Veja como estimar filamento, energia, tempo de máquina e preço por peça.
-</p>
+      <p>
+        Calcule o preço necessário para a margem desejada.
+      </p>
 
-<h3>
-<a href="como-calcular-preco-venda.html">Como calcular o preço de venda?</a>
-</h3>
-<p>
-Entenda a diferença entre custo, margem e markup com um exemplo prático.
-</p>
+      <a class="button" href="margem-lucro.html">
+        Abrir calculadora
+      </a>
+    </article>
 
-<h3>
-<a href="lucro-shopee-mercado-livre.html">Como calcular lucro em marketplaces?</a>
-</h3>
-<p>
-Saiba como incluir comissão, tarifa fixa, frete e outros custos.
-</p>
-</section>
+    <article class="panel">
+      <h2>Marketplaces</h2>
+
+      <p>
+        Simule taxas, frete e comissões com valores informados por você.
+      </p>
+
+      <a class="button" href="marketplace.html">
+        Abrir calculadora
+      </a>
+    </article>
+
+    <article class="panel">
+      <h2>Orçamentos em PDF</h2>
+
+      <p>
+        Prepare uma proposta simples e salve usando o navegador.
+      </p>
+
+      <a class="button" href="orcamento.html">
+        Criar orçamento
+      </a>
+    </article>
+
+  </section>
+
+  <section class="home-kit" aria-labelledby="home-kit-title">
+
+    <div>
+
+      <span class="home-kit-tag">
+        PLANILHA EXCEL · KIT PREÇOCERTO V1
+      </span>
+
+      <h2 id="home-kit-title">
+        Vende vários produtos? Organize seus preços em uma planilha.
+      </h2>
+
+      <p>
+        Conheça o <strong>Kit PreçoCerto v1</strong>, desenvolvido para vendedores da Shopee, Mercado Livre e outros marketplaces.
+      </p>
+
+      <p>
+        Cadastre até 100 produtos, organize custos e comissões, acompanhe margens de lucro estimadas e compare diferentes cenários de precificação.
+      </p>
+
+      <p class="home-kit-details">
+        Planilha Excel com painel de resultados, cadastro de produtos, simulador e instruções de utilização.
+      </p>
+
+      <p class="home-kit-details">
+        Todas as nossas calculadoras online continuam gratuitas. O kit é um produto opcional.
+      </p>
+
+    </div>
+
+    <div class="home-kit-action">
+
+      <span class="home-kit-price">
+        R$ 19,90
+      </span>
+
+      <span class="home-kit-payment">
+        Pagamento único · Sem mensalidade
+      </span>
+
+      <a
+        id="home-kit-link"
+        class="home-kit-button"
+        href="kit-precificacao.html"
+      >
+        Conhecer o Kit PreçoCerto →
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="panel article">
+
+    <h2>Qual calculadora usar?</h2>
+
+    <p>
+      Se você fabrica peças em impressora 3D, comece pela
+      <a href="impressao-3d.html">calculadora de impressão 3D</a>:
+      ela considera material, eletricidade e horas de máquina.
+    </p>
+
+    <p>
+      Para produtos e serviços em geral, use a
+      <a href="margem-lucro.html">calculadora de margem de lucro</a>.
+    </p>
+
+    <p>
+      Quem vende em plataformas pode simular comissões e tarifas na
+      <a href="marketplace.html">calculadora de marketplaces</a>.
+    </p>
+
+    <p>
+      Depois de calcular o preço, você pode criar um documento no
+      <a href="orcamento.html">gerador de orçamentos em PDF</a>.
+    </p>
+
+    <h2>Como definir um preço de venda?</h2>
+
+    <p>
+      Liste os custos diretos, como material e embalagem, e os indiretos,
+      como energia e operação.
+    </p>
+
+    <p>
+      Identifique as taxas cobradas sobre a venda e escolha uma margem
+      realista.
+    </p>
+
+    <p>
+      A margem de lucro é a porcentagem do preço final que sobra depois
+      dos custos considerados; ela não é igual ao markup, que relaciona
+      lucro e custo.
+    </p>
+
+    <h2>O resultado é um preço obrigatório?</h2>
+
+    <p>
+      Não. As ferramentas apresentam estimativas com os números que
+      você informar.
+    </p>
+
+    <p>
+      Considere também impostos, devoluções, perdas, concorrência,
+      demanda e regras de cada plataforma.
+    </p>
+
+    <p>
+      Confira os valores antes de fazer uma oferta comercial.
+    </p>
+
+  </section>
+
+  <section class="panel article">
+
+    <h2>Guias para calcular seus preços</h2>
+
+    <p>
+      Além das calculadoras, consulte exemplos de custos, taxas e margens
+      para entender cada etapa da precificação.
+    </p>
+
+    <h3>
+      <a href="quanto-custa-impressao-3d.html">
+        Quanto custa uma impressão 3D?
+      </a>
+    </h3>
+
+    <p>
+      Veja como estimar filamento, energia, tempo de máquina e preço por peça.
+    </p>
+
+    <h3>
+      <a href="como-calcular-preco-venda.html">
+        Como calcular o preço de venda?
+      </a>
+    </h3>
+
+    <p>
+      Entenda a diferença entre custo, margem e markup com um exemplo prático.
+    </p>
+
+    <h3>
+      <a href="lucro-shopee-mercado-livre.html">
+        Como calcular lucro em marketplaces?
+      </a>
+    </h3>
+
+    <p>
+      Saiba como incluir comissão, tarifa fixa, frete e outros custos.
+    </p>
+
+  </section>
+
 </main>
 
 <footer>
-<div class="foot">
-<p>© 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.</p>
-<a href="index.html">Início</a>
-<a href="sobre.html">Sobre</a>
-<a href="privacidade.html">Privacidade</a>
-<a href="contato.html">Contato</a>
-</div>
+  <div class="foot">
+
+    <p>
+      © 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.
+    </p>
+
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre</a>
+    <a href="privacidade.html">Privacidade</a>
+    <a href="contato.html">Contato</a>
+
+  </div>
 </footer>
 
-<script src="app.js?v=242" defer></script>
-<script src="analytics.js" defer></script>
+<script defer src="app.js?v=242"></script>
+<script defer src="analytics.js"></script>
+
+<script>
+  (() => {
+    const kitLink = document.getElementById("home-kit-link");
+
+    if (!kitLink) return;
+
+    kitLink.addEventListener("click", () => {
+      try {
+        const consentimento = localStorage.getItem(
+          "precocerto_analytics_consent"
+        );
+
+        if (
+          consentimento === "accepted" &&
+          typeof window.gtag === "function"
+        ) {
+          window.gtag("event", "kit_offer_click", {
+            origem: "pagina_inicial",
+            produto: "kit_precocerto_v1"
+          });
+        }
+      } catch {}
+    });
+  })();
+</script>
+
 </body>
 </html>
