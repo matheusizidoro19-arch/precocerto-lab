@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10243a">
+  <meta name="robots" content="noindex,follow">
+  <title>Kit PreçoCerto v1: planilha de precificação para marketplaces | PreçoCerto Lab</title>
+  <meta name="description" content="Organize custos, comissões, margem e lucro de até 100 produtos em uma planilha Excel. Conheça o Kit PreçoCerto v1 para vendedores de marketplaces.">
+  <link rel="canonical" href="https://matheusizidoro19-arch.github.io/precocerto-lab/kit-precificacao.html">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    [hidden]{display:none!important}
+    .kit-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;margin:20px 0 28px}
+    .kit-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #c9d9eb;background:#e9f2fc;color:#124e8a;border-radius:999px;font-weight:750;font-size:.79rem;letter-spacing:.02em}
+    .kit-hero h1{max-width:690px;line-height:1.1;margin:15px 0}
+    .kit-hero p{font-size:1.03rem}
+    .kit-hero-visual{background:linear-gradient(155deg,#133557,#0d243c);padding:20px;border-radius:22px;box-shadow:0 22px 38px #10243a25}
+    .kit-hero-visual img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid #d4e0ec;background:white}
+    .kit-hero-visual p{margin:12px 0 0;color:#d8e8f8;font-size:.83rem}
+    .kit-price{font-size:clamp(2.3rem,5vw,3.3rem);font-weight:850;line-height:1.12;color:#10243a;letter-spacing:-.04em;margin:7px 0}
+    .kit-price-label{font-size:.88rem;color:#486078;font-weight:650}
+    .kit-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 26px}
+    .kit-benefit{padding:17px;background:white;border-radius:14px;border:1px solid #dfe7ef}
+    .kit-benefit strong{display:block;margin-bottom:7px;color:#10243a}
+    .kit-benefit p{font-size:.9rem;margin:0}
+    .kit-action{background:#eaf5f1;border:1px solid #b9dfd2;border-radius:16px;padding:19px;margin:22px 0}
+    .kit-action h2{margin:0 0 7px}
+    .kit-action p{margin:6px 0}
+    .kit-action .button{margin-right:12px}
+    .kit-action-note{font-size:.83rem;color:#345166}
+    .kit-action .kit-checkout{background:#0b735c}
+    .kit-action .kit-checkout:hover{background:#075843}
+    .kit-section{margin:28px 0}
+    .kit-section>h2{font-size:1.45rem}
+    .kit-shots{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .kit-shot{margin:0;background:white;border:1px solid #dfe7ef;border-radius:16px;padding:13px;box-shadow:0 7px 25px #10243a09}
+    .kit-shot img{width:100%;height:auto;display:block;border-radius:9px;background:#f4f7fb}
+    .kit-shot figcaption{padding:12px 3px 3px;color:#43586b;font-size:.88rem;line-height:1.5}
+    .kit-shot-wide{grid-column:1/-1}
+    .kit-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .kit-step{padding:21px;border:1px solid #dfe7ef;border-radius:16px;background:white}
+    .kit-step span{display:inline-block;font-weight:850;color:#13765f;background:#dff4ed;padding:6px 10px;border-radius:8px;margin-bottom:9px}
+    .kit-step h3{font-size:1.06rem;margin:7px 0}
+    .kit-step p{font-size:.9rem;margin:0}
+    .kit-faq{max-width:840px}
+    .kit-faq details{padding:17px 20px;background:white;border:1px solid #dfe7ef;border-radius:12px;margin-bottom:11px}
+    .kit-faq summary{cursor:pointer;font-weight:750;color:#10243a}
+    .kit-faq details p{margin-bottom:0}
+    .kit-muted{color:#586c7e;font-size:.87rem}
+    .kit-intro-links{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .kit-text-link{display:inline-block;margin-top:15px;color:#0d5fac;font-weight:700}
+    .kit-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:800px){.kit-hero{grid-template-columns:1fr}.kit-benefits,.kit-steps{grid-template-columns:1fr}.kit-shots{grid-template-columns:1fr}.kit-shot-wide{grid-column:auto}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media print{.kit-hero{display:block}.kit-hero-visual,.kit-shots,.kit-action{display:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Navegação principal">
+      <a class="brand" href="index.html">◈ PreçoCerto Lab</a>
+      <div>
+        <a href="impressao-3d.html">Impressão 3D</a>
+        <a href="margem-lucro.html">Margem</a>
+        <a href="marketplace.html">Marketplace</a>
+        <a href="orcamento.html">Orçamentos</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div class="kit-hero">
+      <div>
+        <div class="kit-tag">PLANILHA EXCEL · KIT PREÇOCERTO V1</div>
+        <h1>Controle seus preços e descubra o lucro estimado de cada produto.</h1>
+        <p class="lead">Uma planilha prática para quem vende em marketplaces e precisa organizar custos, comissões, frete, margem e preços de até 100 produtos em um só lugar.</p>
+        <div class="kit-price-label">Preço inicial de lançamento</div>
+        <div class="kit-price">R$ 19,90</div>
+        <div class="kit-intro-links">
+          <a class="button" href="#como-funciona">Conhecer a planilha</a>
+          <a class="kit-text-link" href="marketplace.html">Usar calculadora grátis →</a>
+        </div>
+        <p class="kit-muted">Pagamento único previsto, sem mensalidade. Vendas ainda não abertas.</p>
+      </div>
+      <div class="kit-hero-visual">
+        <img src="assets/kit-preco-certo-painel.png" alt="Captura real da aba Painel, com receita, lucro estimado, margem e avisos de produtos, usando exemplos fictícios" width="1527" height="802" fetchpriority="high">
+        <p>Imagem real do arquivo Excel. Os números exibidos são exemplos fictícios.</p>
+      </div>
+    </div>
+    <div class="kit-benefits" aria-label="Vantagens da planilha">
+      <div class="kit-benefit"><strong>Até 100 produtos</strong><p>Organize custos, taxas, preço atual e margem desejada em um catálogo único.</p></div>
+      <div class="kit-benefit"><strong>Alertas de resultado</strong><p>Identifique produtos com prejuízo ou margem abaixo da meta informada.</p></div>
+      <div class="kit-benefit"><strong>Comparação de cenários</strong><p>Simule alterações de comissões, frete ou custos antes de decidir o preço.</p></div>
+    </div>
+    <section class="kit-action" id="comprar" aria-labelledby="comprar-titulo">
+      <h2 id="comprar-titulo">Kit PreçoCerto v1 por R$ 19,90</h2>
+      <p>Arquivo Excel (.xlsx) com quatro abas e exemplos de preenchimento. O pagamento será único, sem assinatura.</p>
+      <a id="kit-checkout-link" class="button kit-checkout" hidden rel="noopener noreferrer" href="#">Comprar por R$ 19,90</a>
+      <p id="kit-checkout-pendente" class="kit-action-note"><strong>Venda em preparação.</strong> Estamos configurando o pagamento e a entrega automática do arquivo. Enquanto isso, use nossas ferramentas gratuitas.</p>
+      <a href="marketplace.html">Abrir a calculadora gratuita de Marketplace</a>
+    </section>
+    <section class="kit-section" id="como-funciona">
+      <h2>O que você recebe</h2>
+      <div class="cards">
+        <article class="panel"><h3>1. Painel</h3><p>Resumo de produtos, receita mensal projetada, lucro estimado e margem, com alertas de atenção.</p></article>
+        <article class="panel"><h3>2. Produtos</h3><p>Cadastro de até 100 produtos, cálculo de preço sugerido e análise de resultados usando o preço praticado.</p></article>
+        <article class="panel"><h3>3. Simulador</h3><p>Comparação entre os cenários A e B para visualizar o impacto de custos, taxas e margens.</p></article>
+        <article class="panel"><h3>4. Instruções</h3><p>Orientações para preencher a planilha, interpretar alertas e substituir os exemplos fictícios.</p></article>
+      </div>
+    </section>
+    <section class="kit-section" aria-labelledby="capturas-titulo">
+      <h2 id="capturas-titulo">Veja como é a planilha por dentro</h2>
+      <p>As capturas abaixo são do arquivo que será entregue. Os valores e os produtos são apenas demonstrações.</p>
+      <div class="kit-shots">
+        <figure class="kit-shot kit-shot-wide">
+          <img src="assets/kit-preco-certo-painel.png" alt="Painel de resultados com indicadores e comparativo por canal" loading="lazy" width="1527" height="802">
+          <figcaption><strong>Painel:</strong> visão geral das projeções do catálogo e comparação por canal.</figcaption>
+        </figure>
+        <figure class="kit-shot">
+          <img src="assets/kit-preco-certo-produtos.png" alt="Planilha Produtos mostrando campos de custos, comissões, margem e preço" loading="lazy">
+          <figcaption><strong>Produtos:</strong> preencha as células editáveis e acompanhe os cálculos automáticos.</figcaption>
+        </figure>
+        <figure class="kit-shot">
+          <img src="assets/kit-preco-certo-simulador.png" alt="Planilha Simulador mostrando comparação das premissas nos cenários A e B" loading="lazy">
+          <figcaption><strong>Simulador:</strong> compare dois cenários com preços e taxas diferentes.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="kit-section" aria-labelledby="etapas-titulo">
+      <h2 id="etapas-titulo">Como utilizar em três etapas</h2>
+      <div class="kit-steps">
+        <article class="kit-step"><span>01</span><h3>Preencha os custos</h3><p>Informe produto, embalagem, frete e outras despesas ligadas à venda.</p></article>
+        <article class="kit-step"><span>02</span><h3>Defina taxas e margem</h3><p>Inclua as comissões e tributos aplicáveis ao seu caso e a margem desejada.</p></article>
+        <article class="kit-step"><span>03</span><h3>Compare os resultados</h3><p>Analise o preço sugerido, o lucro estimado e as projeções por produto.</p></article>
+      </div>
+    </section>
+    <section class="kit-section kit-faq" aria-labelledby="faq-titulo">
+      <h2 id="faq-titulo">Dúvidas frequentes</h2>
+      <details><summary>É uma assinatura?</summary><p>Não. O preço proposto é de pagamento único para receber a versão 1 do arquivo Excel, sem cobrança mensal.</p></details>
+      <details><summary>Preciso acessar o site para usar a planilha?</summary><p>Não. A planilha pode ser utilizada localmente em um aplicativo compatível com arquivos Excel (.xlsx). Ela não depende de integração com os marketplaces.</p></details>
+      <details><summary>As taxas da Shopee e do Mercado Livre são atualizadas automaticamente?</summary><p>Não. Você informa suas taxas e custos. Consulte sempre as regras e os valores atuais aplicáveis à sua conta e categoria.</p></details>
+      <details><summary>O lucro mensal é garantido?</summary><p>Não. As projeções dependem dos custos, preços e quantidades preenchidos. Despesas não consideradas, devoluções e outras condições podem alterar o resultado real.</p></details>
+      <details><summary>A planilha contém macros ou coleta meus dados?</summary><p>Não. O arquivo utiliza fórmulas do Excel, sem macros ou coleta de informações para o site.</p></details>
+      <details><summary>O que acontece com a calculadora gratuita?</summary><p>Ela continua gratuita. O kit é uma opção adicional para organizar vários produtos e comparar os resultados numa planilha.</p></details>
+    </section>
+    <section class="panel article">
+      <h2>Comece gratuitamente enquanto preparamos as vendas</h2>
+      <p>Se você precisa calcular o preço de um produto agora, utilize a <a href="marketplace.html">calculadora de Marketplace</a>. Também publicamos um <a href="lucro-shopee-mercado-livre.html">guia para calcular o lucro na Shopee e no Mercado Livre</a>, com exemplos que você pode reproduzir.</p>
+      <p class="kit-muted">O Kit PreçoCerto apresenta estimativas com base nos dados informados pelo usuário e não substitui orientações contábeis ou fiscais.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="foot">
+      <p>© 2026 PreçoCerto Lab · Ferramentas educativas, cálculos estimativos.</p>
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="contato.html">Contato</a>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const checkoutUrl = "";
+      const button = document.getElementById("kit-checkout-link");
+      const pending = document.getElementById("kit-checkout-pendente");
+      if (/^https:\/\/[^\s]+$/i.test(checkoutUrl)) {
+        button.href = checkoutUrl;
+        button.hidden = false;
+        pending.hidden = true;
+        button.addEventListener("click", () => {
+          try {
+            if (localStorage.getItem("precocerto_analytics_consent") === "accepted" && typeof window.gtag === "function") {
+              window.gtag("event", "kit_checkout_click", { produto: "kit_precocerto_v1", preco: 19.9, moeda: "BRL" });
+            }
+          } catch {}
+        });
+      }
+    })();
+  </script>
+  <script src="analytics.js" defer></script>
+</body>
+</html>
