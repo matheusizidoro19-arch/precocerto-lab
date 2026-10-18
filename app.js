@@ -173,6 +173,7 @@ if(el('budget')){
 
     if(budget()){
       registrarEvento('orcamento_atualizado');
+      registrarEvento('calculo_concluido',{ferramenta:'orcamento'});
     }
   });
 

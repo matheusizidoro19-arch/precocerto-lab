@@ -396,8 +396,9 @@ Para peças fabricadas, use a <a href="impressao-3d.html">calculadora de impress
     const qty=Number(get('quantidade').value);
     const unit=Number(get('unitario').value);
     const discount=Number(get('desconto').value);
+    const subtotal=qty*unit;
 
-    if(!Number.isFinite(qty)||qty<=0||!Number.isFinite(unit)||unit<0||!Number.isFinite(discount)||discount<0||discount>qty*unit){
+    if(['quantidade','unitario','desconto'].some(id=>get(id).value.trim()==='')||!Number.isFinite(qty)||qty<0.01||!Number.isFinite(unit)||unit<0||!Number.isFinite(discount)||discount<0||!Number.isFinite(subtotal)||discount>subtotal){
       alert('Confira quantidade, preço e desconto antes de imprimir.');
       return false;
     }
@@ -412,10 +413,10 @@ Para peças fabricadas, use a <a href="impressao-3d.html">calculadora de impress
     put('pdfServico',get('servico').value.trim()||'Não informado');
     put('pdfQuantidade',String(qty).replace('.',','));
     put('pdfUnitario',money(unit));
-    put('pdfSubtotal',money(qty*unit));
-    put('pdfBruto',money(qty*unit));
+    put('pdfSubtotal',money(subtotal));
+    put('pdfBruto',money(subtotal));
     put('pdfDesconto',money(discount));
-    put('pdfTotal',money(qty*unit-discount));
+    put('pdfTotal',money(subtotal-discount));
     put('pdfObservacoes',get('observacoes').value.trim()||'Nenhuma');
 
     return true;

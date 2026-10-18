@@ -189,6 +189,19 @@
       settings.style.display = "none";
     });
 
+    window.addEventListener("storage", (event) => {
+      if (event.key !== storageKey && event.key !== null) return;
+
+      if (getConsent() === "accepted") {
+        startAnalytics();
+      } else if (analyticsLoaded) {
+        window.location.reload();
+        return;
+      }
+
+      updateVisibility();
+    });
+
     if (getConsent() === "accepted") {
       startAnalytics();
     }
