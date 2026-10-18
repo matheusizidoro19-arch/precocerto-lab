@@ -122,7 +122,7 @@ test('Resistência do lucro: desconto de 100% não é permitido', () => {
 });
 test('SEO: todas as URLs declaradas têm arquivo, título, H1 e canonical', () => {
   const urls=[...source('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]);
-  assert.equal(urls.length,13);
+  assert.equal(urls.length,14);
   for(const url of urls){
     assert.ok(url.startsWith('https://lucronoazul.com.br/'));
     const p = new URL(url).pathname;
