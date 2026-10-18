@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<meta name="robots" content="noindex,follow">
+<title>Calculadora Shopee 2026: taxas CPF, MEI e CNPJ | Lucro no Azul</title>
+<meta name="description" content="Simule taxas da Shopee por faixa de preço, CPF, MEI e CNPJ. Veja preço sugerido, comissão, tarifa fixa e lucro estimado, com opção de ajuste manual.">
+<link rel="canonical" href="https://lucronoazul.com.br/shopee-tarifas.html">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Calculadora Shopee 2026: taxas e lucro | Lucro no Azul">
+<meta property="og:description" content="Simule comissão por faixa de preço, perfil de vendedor, custos e lucro desejado.">
+<meta property="og:url" content="https://lucronoazul.com.br/shopee-tarifas.html">
+<meta property="og:image" content="https://lucronoazul.com.br/assets/og-marketplace.png">
+<style>
+header nav>div{max-width:100%;display:flex;flex-wrap:wrap}
+.shopee-intro{max-width:820px}
+.shopee-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:start}
+.shopee-grid .panel{min-width:0}
+.shopee-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.shopee-fields label{font-size:.9rem}
+.shopee-fields select{display:block;width:100%;margin-top:7px;padding:11px;border:1px solid #cbd6e3;border-radius:8px;font:inherit;background:#fff;color:#17283d}
+.shopee-fields select:focus-visible,.shopee-fields input:focus-visible{outline:2px solid #2478d6}
+.shopee-full{grid-column:1/-1}
+.shopee-result{min-width:0;background:#10243a;color:#fff;border-radius:16px;padding:24px}
+.shopee-result h2{color:#fff;margin-top:0}
+.shopee-result p{color:#d5e1ed}
+.shopee-price{color:#78e1bf;font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);margin:10px 0}
+.shopee-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #ffffff30}
+.shopee-line strong{min-width:0;white-space:normal;text-align:right;overflow-wrap:anywhere}
+.shopee-error{color:#a52727;font-weight:700;min-height:1.5em}
+.shopee-warning{padding:14px;border-radius:10px;background:#fff6e5;border:1px solid #e0bd7d;color:#634315;font-size:.9rem}
+.shopee-muted{font-size:.86rem;color:#526277}
+.shopee-article{max-width:880px}
+.shopee-article table{width:100%;border-collapse:collapse}
+.shopee-article th,.shopee-article td{padding:10px;border-bottom:1px solid #dfe7ef;text-align:left}
+.shopee-article th{background:#eaf1f8}
+.shopee-article a{overflow-wrap:anywhere}
+.shopee-compare{border:1px solid #dce4ec;border-radius:10px;background:#f8fbff;color:#17283d;padding:16px;margin-top:14px}
+.shopee-compare p{color:#526277}
+.shopee-manual[hidden]{display:none}
+@media(max-width:830px){.shopee-grid{grid-template-columns:1fr}}
+@media(max-width:440px){.shopee-fields{grid-template-columns:1fr}.shopee-full{grid-column:auto}.shopee-line{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+<header><nav aria-label="Navegação principal"><a class="brand" href="index.html">◈ Lucro no Azul</a><div><a href="impressao-3d.html">Impressão 3D</a><a href="margem-lucro.html">Margem</a><a href="marketplace.html">Marketplace</a><a href="orcamento.html">Orçamentos</a></div></nav></header>
+<main>
+<div class="eyebrow">Ferramenta gratuita · Sem cadastro</div>
+<h1>Calculadora de taxas da Shopee para CPF, MEI e CNPJ</h1>
+<p class="lead shopee-intro">Calcule um preço de venda estimado levando em conta a faixa de preço da Shopee, a tarifa por item, seus custos e a margem desejada. Os percentuais são referências de simulação ainda não confirmadas diretamente na Shopee; não são tarifas confirmadas da sua conta.</p>
+<div class="shopee-grid">
+<section class="panel" aria-labelledby="shopee-form-title">
+<h2 id="shopee-form-title">Configure sua simulação</h2>
+<form id="shopee-form">
+<div class="shopee-fields">
+<label class="shopee-full">Forma de cálculo<select id="shopee-modo"><option value="automatico">Referência por faixa de preço</option><option value="manual">Informar minhas tarifas manualmente</option></select></label>
+<label class="shopee-full">Perfil da loja<select id="shopee-perfil"><option value="cnpj">MEI ou CNPJ</option><option value="cpf_ate_450">CPF: até 450 pedidos em 90 dias</option><option value="cpf_acima_450">CPF: mais de 450 pedidos em 90 dias</option></select></label>
+<label>Custo do produto (R$)<input id="shopee-custo" type="number" inputmode="decimal" min="0" step="0.01" required value="35"></label>
+<label>Embalagem e extras (R$)<input id="shopee-embalagem" type="number" inputmode="decimal" min="0" step="0.01" required value="5"></label>
+<label>Frete pago pelo vendedor (R$)<input id="shopee-frete" type="number" inputmode="decimal" min="0" step="0.01" required value="0"></label>
+<label>Tributos sobre a venda (%)<input id="shopee-imposto" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" required value="0"></label>
+<label>Publicidade sobre a venda (%)<input id="shopee-ads" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" required value="0"></label>
+<label>Margem desejada (%)<input id="shopee-margem" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" required value="20"></label>
+<div class="shopee-full shopee-manual shopee-fields" id="shopee-manual" hidden>
+<label>Comissão informada (%)<input id="shopee-comissao-manual" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" required disabled value="20"></label>
+<label>Tarifa fixa informada (R$)<input id="shopee-fixa-manual" type="number" inputmode="decimal" min="0" step="0.01" required disabled value="4.50"></label>
+</div>
+<label class="shopee-full">Preço atual do produto (R$), opcional<input id="shopee-preco-atual" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Ex.: 79,90"></label>
+</div>
+<button class="button" type="submit">Calcular preço e taxas</button>
+<p class="shopee-error" id="shopee-erro" role="alert" aria-live="polite"></p>
+</form>
+<p class="shopee-muted">Os cálculos são feitos no navegador. Não solicitamos seu número de CPF, CNPJ nem dados da conta.</p>
+</section>
+<section class="shopee-result" aria-labelledby="shopee-result-title">
+<h2 id="shopee-result-title">Preço de venda estimado</h2>
+<div class="shopee-price" id="shopee-preco" aria-live="polite">—</div>
+<p id="shopee-faixa">Preencha o formulário.</p>
+<div class="shopee-line"><span>Comissão percentual estimada</span><strong id="shopee-comissao">—</strong></div>
+<div class="shopee-line"><span>Tarifa fixa estimada</span><strong id="shopee-fixa">—</strong></div>
+<div class="shopee-line"><span>Adicional CPF estimado</span><strong id="shopee-adicional">—</strong></div>
+<div class="shopee-line"><span>Tributos + publicidade estimados</span><strong id="shopee-encargos">—</strong></div>
+<div class="shopee-line"><span>Custo informado</span><strong id="shopee-custo-total">—</strong></div>
+<div class="shopee-line"><span>Lucro líquido estimado</span><strong id="shopee-lucro">—</strong></div>
+<div class="shopee-line"><span>Margem efetiva estimada</span><strong id="shopee-margem-final">—</strong></div>
+<p>O lucro considera apenas os custos e percentuais informados. Custos não informados reduzem o lucro real.</p>
+<div class="shopee-compare" id="shopee-conferencia" hidden><strong>Conferência do preço atual</strong><p id="shopee-conferencia-texto" aria-live="polite"></p></div>
+</section>
+</div>
+<p class="shopee-warning" id="shopee-aviso"><strong>Atenção:</strong> esta simulação usa uma tabela de referência com vigência informada no modelo desde 01/10/2026, ainda não confirmada diretamente na Shopee. Não acessa sua conta em tempo real. Para CPF abaixo de R$ 12,00, a regra regressiva não foi validada e o cálculo automático não está disponível; o preço sugerido para CPF considera apenas faixas a partir de R$ 12,00 e não representa o menor preço possível abaixo desse valor. Consulte seu painel e use o modo manual. Campanhas, multas, frete adicional, devoluções, tributos e outras condições podem alterar o resultado.</p>
+<p class="shopee-muted">Referência revisada em <time datetime="2026-10-18">18/10/2026</time>. Conferência oficial pendente.</p>
+<section class="panel article shopee-article">
+<h2>Comissões da Shopee usadas nesta simulação</h2>
+<div style="overflow-x:auto"><table><thead><tr><th>Valor do item</th><th>Comissão</th><th>Valor fixo (MEI/CNPJ)</th></tr></thead><tbody><tr><td>Abaixo de R$ 9,00</td><td>20%</td><td>50% do preço do item</td></tr><tr><td>R$ 9,00 a R$ 79,99</td><td>20%</td><td>R$ 4,50</td></tr><tr><td>R$ 80,00 a R$ 99,99</td><td>14%</td><td>R$ 16,00</td></tr><tr><td>R$ 100,00 a R$ 199,99</td><td>14%</td><td>R$ 20,00</td></tr><tr><td>R$ 200,00 ou mais</td><td>14%</td><td>R$ 26,00</td></tr></tbody></table></div>
+<p>CPF com mais de 450 pedidos em 90 dias: adicional estimado de R$ 3 por item nas faixas de R$ 12 ou mais. Para CPF abaixo de R$ 12, a tarifa regressiva não foi validada; use o modo manual com as cobranças indicadas pela sua conta.</p>
+<h3>Por que os valores mudam perto de R$ 80, R$ 100 e R$ 200?</h3>
+<p>A parcela fixa aumenta quando o preço passa de uma faixa para outra. Por isso o sistema procura o menor preço em centavos que alcança a margem informada, verificando cada faixa em vez de aplicar uma única tarifa para todos os preços.</p>
+<h3>Como conferir se os valores se aplicam à sua loja?</h3>
+<p>Consulte a política da Shopee e seu extrato de vendas antes de definir preços. Se suas tarifas forem diferentes, escolha “Informar minhas tarifas manualmente”. O sistema não acessa sua conta e não atualiza os valores automaticamente. Se a Shopee aplicar uma tarifa regressiva ou uma faixa especial ao seu item, a taxa digitada manualmente serve apenas como referência para a situação informada e pode mudar quando o preço mudar.</p>
+<p><strong>Fontes indicadas para conferência:</strong> Centro de Educação do Vendedor da Shopee — <a href="https://seller.shopee.com.br/edu/article/26839" rel="noopener noreferrer" target="_blank">artigo 26839</a> e <a href="https://seller.shopee.com.br/edu/article/18484" rel="noopener noreferrer" target="_blank">artigo 18484</a>. Referências secundárias registradas: <a href="https://multdrop.com.br/taxas-da-shopee/" rel="noopener noreferrer" target="_blank">MultDrop</a> e <a href="https://www.connectweek.com.br/artigo/margem-por-venda-na-shopee-como-calcular" rel="noopener noreferrer" target="_blank">ConnectWeek</a>. A tabela ainda não tem confirmação oficial. Confira as condições atuais diretamente no Seller Center e no seu extrato antes de definir preços.</p>
+<p>Também temos uma <a href="marketplace.html">calculadora de Marketplace com taxas totalmente manuais</a> e um <a href="lucro-shopee-mercado-livre.html">guia sobre lucro em marketplaces</a>.</p>
+</section>
+</main>
+<footer class="foot"><a href="index.html">Início</a> · <a href="sobre.html">Sobre</a> · <a href="privacidade.html">Privacidade</a> · <a href="contato.html">Contato</a></footer>
+<script src="shopee-taxas.js" defer></script>
+<script src="shopee-ui.js" defer></script>
+<script src="analytics.js" defer></script>
+</body>
+</html>
