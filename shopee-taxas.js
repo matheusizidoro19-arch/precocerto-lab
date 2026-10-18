@@ -3,6 +3,7 @@
   const VIGENCIA = '2026-10-01';
   const CONFERENCIA = '2026-10-18';
   const MAX_CENTAVOS = 100000000;
+  const ESCALA = 10000;
   const faixas = [
     { inicio: 1, fim: 899, percentual: 20, fixa: 0, especial: true, titulo: 'Abaixo de R$ 9,00' },
     { inicio: 900, fim: 7999, percentual: 20, fixa: 450, titulo: 'R$ 9,00 a R$ 79,99' },
@@ -10,15 +11,34 @@
     { inicio: 10000, fim: 19999, percentual: 14, fixa: 2000, titulo: 'R$ 100,00 a R$ 199,99' },
     { inicio: 20000, fim: MAX_CENTAVOS, percentual: 14, fixa: 2600, titulo: 'R$ 200,00 ou mais' }
   ];
-  const inteiro = n => Number.isInteger(n) && n >= 0;
+  const inteiro = n => Number.isSafeInteger(n) && n >= 0;
+  const arredondar = (centavos, pontos) => Math.floor((centavos * pontos + ESCALA / 2) / ESCALA);
+  function percentualEmPontos(valor) {
+    const pontos = Math.round(valor * 100);
+    if (!Number.isFinite(valor) || valor < 0 || valor >= 100 || valor !== pontos / 100) throw new Error('Informe percentuais entre 0 e 99,99, com até duas casas decimais.');
+    return pontos;
+  }
+  function prepararConfig(config) {
+    const { modo, perfil, custoCentavos, fixaManualCentavos } = config;
+    if (!inteiro(custoCentavos) || custoCentavos > MAX_CENTAVOS) throw new Error('Informe custos válidos.');
+    if (!['automatico', 'manual'].includes(modo)) throw new Error('Selecione uma forma de cálculo.');
+    if (modo !== 'manual' && !['cnpj', 'cpf_ate_450', 'cpf_acima_450'].includes(perfil)) throw new Error('Selecione um perfil de vendedor.');
+    if (modo === 'manual' && (!inteiro(fixaManualCentavos) || fixaManualCentavos > MAX_CENTAVOS)) throw new Error('Informe corretamente a tarifa manual.');
+    return {
+      ...config,
+      impostoPontos: percentualEmPontos(config.impostoPercentual),
+      anuncioPontos: percentualEmPontos(config.anuncioPercentual),
+      manualPontos: modo === 'manual' ? percentualEmPontos(config.percentualManual) : 0
+    };
+  }
   function calcularTarifa(centavos, perfil) {
     if (!inteiro(centavos) || centavos < 1 || centavos > MAX_CENTAVOS) return null;
     if (!['cnpj', 'cpf_ate_450', 'cpf_acima_450'].includes(perfil)) return null;
     if (perfil !== 'cnpj' && centavos < 1200) return null;
     const faixa = faixas.find(item => centavos >= item.inicio && centavos <= item.fim);
     if (!faixa) return null;
-    const percentualCentavos = Math.round(centavos * faixa.percentual / 100);
-    const fixoCentavos = faixa.especial ? Math.round(centavos * 0.5) : faixa.fixa;
+    const percentualCentavos = arredondar(centavos, faixa.percentual * 100);
+    const fixoCentavos = faixa.especial ? arredondar(centavos, 5000) : faixa.fixa;
     const adicionalCpfCentavos = perfil === 'cpf_acima_450' ? 300 : 0;
     return {
       percentual: faixa.percentual,
@@ -30,70 +50,69 @@
       especial: !!faixa.especial
     };
   }
-  function calcularPreco(config) {
-    const { perfil, custoCentavos, impostoPercentual, anuncioPercentual, margemPercentual, modo, percentualManual, fixaManualCentavos } = config;
-    if (!inteiro(custoCentavos) || custoCentavos > MAX_CENTAVOS) throw new Error('Informe custos válidos.');
-    if (![impostoPercentual, anuncioPercentual, margemPercentual].every(x => Number.isFinite(x) && x >= 0 && x < 100)) throw new Error('Informe percentuais entre 0 e 99,99.');
-    if (modo !== 'manual' && !['cnpj','cpf_ate_450','cpf_acima_450'].includes(perfil)) throw new Error('Selecione um perfil de vendedor.');
-    if (modo === 'manual' && (!Number.isFinite(percentualManual) || percentualManual < 0 || percentualManual >= 100 || !inteiro(fixaManualCentavos))) throw new Error('Informe corretamente a comissão e a tarifa manual.');
-    const calcular = (centavos) => {
-      const tarifa = modo === 'manual' ? {
-        percentual: percentualManual,
-        percentualCentavos: Math.round(centavos * percentualManual / 100),
-        fixoCentavos: fixaManualCentavos,
-        adicionalCpfCentavos: 0,
-        totalCentavos: Math.round(centavos * percentualManual / 100) + fixaManualCentavos,
-        faixa: 'Taxas informadas pelo usuário', especial: false
-      } : calcularTarifa(centavos, perfil);
-      if (!tarifa) return null;
-      const tributosCentavos = Math.round(centavos * impostoPercentual / 100);
-      const publicidadeCentavos = Math.round(centavos * anuncioPercentual / 100);
-      const lucroCentavos = centavos - custoCentavos - tarifa.totalCentavos - tributosCentavos - publicidadeCentavos;
-      const margemEfetiva = 100 * lucroCentavos / centavos;
-      return { precoCentavos: centavos, tarifa, tributosCentavos, publicidadeCentavos, lucroCentavos, margemEfetiva };
-    };
-    const segmentos = modo === 'manual' ? [{inicio:1,fim:MAX_CENTAVOS}] : faixas;
+  function avaliarPreco(dados, centavos) {
+    const tarifa = dados.modo === 'manual' ? {
+      percentual: dados.percentualManual,
+      percentualCentavos: arredondar(centavos, dados.manualPontos),
+      fixoCentavos: dados.fixaManualCentavos,
+      adicionalCpfCentavos: 0,
+      totalCentavos: arredondar(centavos, dados.manualPontos) + dados.fixaManualCentavos,
+      faixa: 'Taxas informadas pelo usuário', especial: false
+    } : calcularTarifa(centavos, dados.perfil);
+    if (!tarifa) throw new Error('A tarifa automática para CPF abaixo de R$ 12 não foi confirmada. Use o modo manual com a tarifa do seu extrato.');
+    const tributosCentavos = arredondar(centavos, dados.impostoPontos);
+    const publicidadeCentavos = arredondar(centavos, dados.anuncioPontos);
+    const lucroCentavos = centavos - dados.custoCentavos - tarifa.totalCentavos - tributosCentavos - publicidadeCentavos;
+    return { precoCentavos: centavos, tarifa, tributosCentavos, publicidadeCentavos, lucroCentavos, margemEfetiva: 100 * lucroCentavos / centavos };
+  }
+  function mdc(a, b) {
+    while (b) [a, b] = [b, a % b];
+    return a;
+  }
+  function menorPrecoNaFaixa(dados, margemPontos, faixa) {
+    const inicio = dados.modo !== 'manual' && dados.perfil !== 'cnpj' ? Math.max(faixa.inicio, 1200) : faixa.inicio;
+    if (inicio > faixa.fim) return null;
+    const pontos = [dados.modo === 'manual' ? dados.manualPontos : faixa.percentual * 100, dados.impostoPontos, dados.anuncioPontos];
+    if (faixa.especial) pontos.push(5000);
+    const fixos = dados.custoCentavos + faixa.fixa + (dados.modo !== 'manual' && dados.perfil === 'cpf_acima_450' ? 300 : 0);
+    const periodo = ESCALA / pontos.reduce((divisor, valor) => mdc(divisor, valor), ESCALA);
+    const incremento = periodo * (ESCALA - margemPontos - pontos.reduce((total, valor) => total + valor, 0));
     let melhor = null;
-    for (const faixa of segmentos) {
-      let inicio = faixa.inicio;
-      let fim = faixa.fim;
-      if (modo !== 'manual' && perfil !== 'cnpj') inicio = Math.max(inicio,1200);
-      if (inicio > fim) continue;
-      const valido = (preco) => {
-        const r = calcular(preco);
-        return !!r && r.lucroCentavos >= Math.round(preco * margemPercentual / 100);
-      };
-      if (!valido(fim)) continue;
-      while (inicio < fim) {
-        const meio = Math.floor((inicio + fim) / 2);
-        if (valido(meio)) fim = meio;
-        else inicio = meio + 1;
+    for (let base = inicio; base <= Math.min(faixa.fim, inicio + periodo - 1); base++) {
+      const lucro = base - fixos - pontos.reduce((total, valor) => total + arredondar(base, valor), 0);
+      const saldo = lucro * ESCALA - base * margemPontos;
+      let passos = 0;
+      if (saldo < 0) {
+        if (incremento <= 0) continue;
+        passos = Math.ceil(-saldo / incremento);
+        if (passos > Math.floor((faixa.fim - base) / periodo)) continue;
       }
-      if (valido(inicio) && (!melhor || inicio < melhor.precoCentavos)) melhor = calcular(inicio);
+      const preco = base + passos * periodo;
+      if (melhor === null || preco < melhor) melhor = preco;
     }
-    if (!melhor) throw new Error('Não foi possível encontrar um preço positivo nessa faixa de valores. Confira custos e margens.');
+    return melhor;
+  }
+  function calcularPreco(config) {
+    const dados = prepararConfig(config);
+    const margemPontos = percentualEmPontos(config.margemPercentual);
+    const segmentos = dados.modo === 'manual' ? [{ inicio: 1, fim: MAX_CENTAVOS, percentual: dados.percentualManual, fixa: dados.fixaManualCentavos }] : faixas;
+    let preco = null;
+    for (const faixa of segmentos) {
+      preco = menorPrecoNaFaixa(dados, margemPontos, faixa);
+      if (preco !== null) break;
+    }
+    if (preco === null) throw new Error('Não foi possível encontrar um preço positivo nessa faixa de valores. Confira custos e margens.');
     return {
-      ...melhor,
-      aviso: modo !== 'manual' && perfil !== 'cnpj' ? 'Para CPF, as tarifas abaixo de R$ 12 possuem regra regressiva não validada. O preço sugerido considera apenas faixas a partir de R$ 12.' : '',
-      modo: modo === 'manual' ? 'manual' : 'referencia',
+      ...avaliarPreco(dados, preco),
+      aviso: dados.modo !== 'manual' && dados.perfil !== 'cnpj' ? 'Para CPF, as tarifas abaixo de R$ 12 possuem regra regressiva não validada. O preço sugerido considera apenas faixas a partir de R$ 12.' : '',
+      modo: dados.modo === 'manual' ? 'manual' : 'referencia',
       vigencia: VIGENCIA,
       conferencia: CONFERENCIA
     };
   }
   function conferirPreco(config, precoCentavos) {
     if (!inteiro(precoCentavos) || precoCentavos < 1 || precoCentavos > MAX_CENTAVOS) throw new Error('Informe um preço de venda válido.');
-    const dados = calcularPreco(config);
-    const { perfil, custoCentavos, impostoPercentual, anuncioPercentual, modo, percentualManual, fixaManualCentavos } = config;
-    const tarifa = modo === 'manual' ? {
-      percentual: percentualManual, percentualCentavos: Math.round(precoCentavos*percentualManual/100), fixoCentavos: fixaManualCentavos,
-      adicionalCpfCentavos: 0, totalCentavos: Math.round(precoCentavos*percentualManual/100) + fixaManualCentavos,
-      faixa: 'Taxas informadas pelo usuário'
-    } : calcularTarifa(precoCentavos,perfil);
-    if (!tarifa) throw new Error('A tarifa automática para CPF abaixo de R$ 12 não foi confirmada. Use o modo manual com a tarifa do seu extrato.');
-    const tributosCentavos = Math.round(precoCentavos*impostoPercentual/100);
-    const publicidadeCentavos = Math.round(precoCentavos*anuncioPercentual/100);
-    const lucroCentavos = precoCentavos - custoCentavos - tarifa.totalCentavos - tributosCentavos - publicidadeCentavos;
-    return {precoCentavos,tarifa,tributosCentavos,publicidadeCentavos,lucroCentavos,margemEfetiva:lucroCentavos/precoCentavos*100,referencia:dados.precoCentavos};
+    return avaliarPreco(prepararConfig(config), precoCentavos);
   }
   const api = {VIGENCIA,CONFERENCIA,calcularTarifa,calcularPreco,conferirPreco};
   if (typeof module === 'object' && module.exports) module.exports = api;
