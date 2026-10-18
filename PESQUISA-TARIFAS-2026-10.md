@@ -1,9 +1,38 @@
-# Pesquisa das tarifas Shopee — tentativa de revalidação em 18/10/2026
+# Pesquisa de tarifas Shopee — evidências e limitações (18/10/2026)
 
-## Alcance e procedência
+## Evidência visual da política oficial enviada pelo responsável pelo projeto
+
+Em 18/10/2026, foram fornecidas cinco capturas de tela da página identificada como **Central de Educação do Vendedor Shopee — "Confira a Política de Comissão para vendedores CNPJ e CPF"**, publicação exibida como **18/09/2026**, com alteração de R$ 4,00 para R$ 4,50 na parcela fixa aplicável à faixa de até R$ 79,99 a partir de **01/10/2026**. As capturas podem ser examinadas na conversa de origem; não foram incorporadas ao repositório. A origem é identificável visualmente, mas a URL autenticada e o texto integral da página não foram verificados de maneira independente no ambiente de execução.
+
+**Regras legíveis nessas capturas:**
+
+| Faixa da venda | Parcela percentual | Parcela fixa, CNPJ | Adicional CPF com mais de 450 pedidos nos 90 dias anteriores |
+| --- | --- | --- | --- |
+| R$ 9,00 a R$ 79,99 | 20% | R$ 4,50 | R$ 3,00 por item |
+| R$ 80,00 a R$ 99,99 | 14% | R$ 16,00 | R$ 3,00 por item |
+| R$ 100,00 a R$ 199,99 | 14% | R$ 20,00 | R$ 3,00 por item |
+| R$ 200,00 ou mais | 14% | R$ 26,00 | R$ 3,00 por item |
+
+**Exceções que as imagens confirmam parcialmente:**
+- Para CNPJ, produtos abaixo de R$ 9,00: o componente fixo por item corresponde a metade do valor do produto. A estrutura percentual geral de 20% aparece na tabela, mas falta confirmar o arredondamento de cada parcela.
+- Para CPF, a página descreve tarifa regressiva para produtos abaixo de R$ 12,00, **sem detalhar na imagem fórmula ou tabela**. O cálculo automático nessa faixa deve permanecer bloqueado para CPF. A distinção até/acima de 450 pedidos requer a consulta às condições da conta; não precisamos coletar o CPF do visitante.
+- A página afirma que a comissão já contempla a taxa de transação; não adicionar outra taxa de transação arbitrariamente.
+- A cobrança é descrita **por item vendido**, mas a aplicação a vários itens/unidades no mesmo pedido e regras por promoção ainda requerem confirmação adicional.
+
+**Programas e benefícios exibidos, mas não incorporados ao cálculo do lucro:**
+- Subsídio Pix indicado como **5%** para faixas de R$ 80,00 a R$ 499,99 e **até 8%** para valores a partir de R$ 500,00, conforme elegibilidade e condições. O exemplo de um item de R$ 500 mostra líquido recebido idêntico no Pix e em cartão/boleto, portanto seria incorreto somar automaticamente esse subsídio ao lucro.
+- Benefícios de frete grátis divulgados em faixas de até **R$ 20** para item de até R$ 79,99, **R$ 30** de R$ 80 a R$ 199,99 e **R$ 40** acima de R$ 200, sempre sujeitos aos termos do programa. Não representam automaticamente frete gratuito para o vendedor.
+
+**Diferença entre evidência e garantia:** as capturas sustentam os valores **das tabelas mostradas**, mas não provam que todas as lojas, campanhas, descontos, pedidos e arredondamentos produzem essas cobranças. Continuar mostrando resultado como estimativa, oferecer modo manual e orientar consulta ao extrato do vendedor. O código atual já corresponde aos percentuais e parcelas fixas dessas faixas e mantém o automático bloqueado para CPF abaixo de R$ 12; nenhuma mudança matemática é necessária apenas com essa evidência.
+
+---
+
+## Histórico da tentativa de consulta automatizada
+
+### Alcance e procedência
 O registro anterior desta pesquisa informa uma comparação da tabela de referência com publicações secundárias que atribuem as regras ao Centro de Educação do Vendedor Shopee. Esse registro não contém cópias ou trechos das páginas que permitam reproduzir a comparação. As datas das publicações listadas abaixo são as anotadas anteriormente, não datas confirmadas nesta revisão.
 
-**Nenhuma regra foi confirmada oficialmente nesta rodada.** Em 18/10/2026, todas as consultas listadas abaixo falharam no proxy do ambiente antes de chegar ao servidor de origem. Não houve leitura das páginas, confirmação de seu conteúdo, de suas datas de atualização ou da vigência das tarifas. A data desta tentativa de consulta não é uma data de conferência oficial.
+**A consulta automatizada desta rodada não confirmou nenhuma regra.** Em 18/10/2026, todas as consultas listadas abaixo falharam no proxy do ambiente antes de chegar ao servidor de origem. Não houve leitura das páginas, confirmação de seu conteúdo, de suas datas de atualização ou da vigência das tarifas. A data desta tentativa de consulta não é uma data de conferência oficial.
 
 Não se atribui o bloqueio à Shopee ou aos sites citados: o resultado observado foi `curl: (56) CONNECT tunnel failed, response 403`, com `http_code=000`. Os cabeçalhos da conexão recusada indicaram `HTTP/1.1 403 Forbidden` e `server: envoy`. A origem não respondeu ao pedido de conteúdo. Não foram contornados proxy, autenticação ou controles de acesso.
 
@@ -22,7 +51,7 @@ Método: HTTPS com redirecionamentos habilitados, verificação TLS preservada e
 
 Não há nesta revisão trecho de conteúdo externo que possa ser apresentado como evidência comercial lida. A documentação de uma URL e de uma tentativa de consulta não confirma a informação atribuída àquela página.
 
-## Tabela embutida no modelo, ainda não confirmada oficialmente
+## Tabela embutida no modelo, cotejada depois com as capturas oficiais
 A vigência indicada de 01/10/2026 faz parte da referência herdada e não foi confirmada nesta rodada. Os valores abaixo descrevem o modelo implementado, não cobranças exatas da Shopee.
 
 - Abaixo de R$ 9 (MEI/CNPJ): comissão 20%, parcela fixa estimada em metade do preço do item.
@@ -32,8 +61,8 @@ A vigência indicada de 01/10/2026 faz parte da referência herdada e não foi c
 - R$ 200,00 ou mais: comissão 14% + R$ 26 por item.
 - CPF com mais de 450 pedidos em 90 dias: adicional indicado de R$ 3 por item nas faixas usuais. Exceção regressiva para preços abaixo de R$ 12 **sem fórmula integral confirmada**.
 
-## Verificação dos dez pontos comerciais
-Classificação usada: “confirmado oficialmente” exige leitura verificável de fonte oficial; “corroborado no histórico por fontes secundárias, sem revalidação” descreve apenas o registro anterior; “não confirmado” indica informação ou exceção ainda sem evidência suficiente. Nenhum ponto abaixo recebeu a classificação “confirmado oficialmente”.
+## Verificação dos dez pontos comerciais — avaliação anterior às capturas
+Classificação usada: “confirmado oficialmente” exige leitura verificável de fonte oficial; “corroborado no histórico por fontes secundárias, sem revalidação” descreve apenas o registro anterior; “não confirmado” indica informação ou exceção ainda sem evidência suficiente. Nesta etapa anterior às capturas, nenhum ponto recebeu a classificação “confirmado oficialmente”. Consulte acima o quadro com as evidências visuais recebidas posteriormente.
 
 | Ponto | Modelo ou hipótese existente | Classificação nesta revisão | Pendência antes de autorizar o automático ao público |
 | --- | --- | --- | --- |
