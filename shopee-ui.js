@@ -30,7 +30,7 @@
     $('shopee-perfil').disabled=ativo;
     $('shopee-aviso').textContent=ativo
       ? 'Atenção: tarifas informadas por você; se mudam por faixa ou são regressivas, a simulação pode variar com o preço. Não é uma consulta ao seu extrato. Confirme campanhas, frete, tributos e outras cobranças.'
-      : 'Atenção: tabela de referência com vigência informada no modelo desde 01/10/2026, ainda não confirmada; as condições não foram confirmadas diretamente na Shopee. Não acessa sua conta em tempo real. Para CPF abaixo de R$ 12,00, a regra regressiva não foi validada e o cálculo automático não está disponível; o preço sugerido para CPF considera apenas faixas a partir de R$ 12,00 e não representa o menor preço possível abaixo desse valor. Consulte seu painel e use o modo manual. Campanhas, multas, frete adicional, devoluções, tributos e outras condições podem alterar o resultado.';
+      : 'Atenção: tabela de referência desde 01/10/2026 comparada com capturas da política oficial, mas as condições individuais e as exceções ainda precisam de conferência no Seller Center. Não acessa sua conta em tempo real. Para CPF abaixo de R$ 12,00, a regra regressiva não foi validada e o cálculo automático não está disponível; o preço sugerido para CPF considera apenas faixas a partir de R$ 12,00 e não representa o menor preço possível abaixo desse valor. Consulte seu painel e use o modo manual. Campanhas, multas, frete adicional, devoluções, tributos e outras condições podem alterar o resultado.';
   }
   function atualizar() {
     atualizarModo();
