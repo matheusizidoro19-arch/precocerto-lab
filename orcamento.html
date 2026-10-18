@@ -61,6 +61,10 @@
     box-sizing: border-box;
   }
 
+  #budgetPaper.budget-invalid > :not(#pdfErro) {
+    display: none!important;
+  }
+
   #budgetPaper .paper-head {
     display: flex;
     justify-content: space-between;
@@ -274,6 +278,7 @@ O PDF é gerado pela opção “Salvar como PDF” na janela de impressão. Revi
 </div>
 
 <section aria-label="Orçamento para impressão" class="budget-paper" id="budgetPaper">
+<p id="pdfErro" role="alert" hidden></p>
 
 <div class="paper-head">
 <div>
@@ -382,59 +387,7 @@ Para peças fabricadas, use a <a href="impressao-3d.html">calculadora de impress
 </div>
 </footer>
 
-<script defer="" src="app.js?v=244"></script>
-
-<script>
-(function(){
-  const ids=['empresa','cliente','servico','quantidade','unitario','desconto','observacoes'];
-  const get=id=>document.getElementById(id);
-  const money=n=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n);
-
-  function syncPrint(){
-    if(!get('budgetPaper'))return;
-
-    const qty=Number(get('quantidade').value);
-    const unit=Number(get('unitario').value);
-    const discount=Number(get('desconto').value);
-    const subtotal=qty*unit;
-
-    if(['quantidade','unitario','desconto'].some(id=>get(id).value.trim()==='')||!Number.isFinite(qty)||qty<0.01||!Number.isFinite(unit)||unit<0||!Number.isFinite(discount)||discount<0||!Number.isFinite(subtotal)||discount>subtotal){
-      alert('Confira quantidade, preço e desconto antes de imprimir.');
-      return false;
-    }
-
-    const put=(id,value)=>{
-      if(get(id))get(id).textContent=value;
-    };
-
-    put('pdfData',new Date().toLocaleDateString('pt-BR'));
-    put('pdfEmpresa',get('empresa').value.trim()||'Não informado');
-    put('pdfCliente',get('cliente').value.trim()||'Não informado');
-    put('pdfServico',get('servico').value.trim()||'Não informado');
-    put('pdfQuantidade',String(qty).replace('.',','));
-    put('pdfUnitario',money(unit));
-    put('pdfSubtotal',money(subtotal));
-    put('pdfBruto',money(subtotal));
-    put('pdfDesconto',money(discount));
-    put('pdfTotal',money(subtotal-discount));
-    put('pdfObservacoes',get('observacoes').value.trim()||'Nenhuma');
-
-    return true;
-  }
-
-  window.addEventListener('beforeprint',syncPrint);
-
-  document.addEventListener('DOMContentLoaded',function(){
-    const button=get('printBudget');
-
-    if(button)button.addEventListener('click',function(event){
-      event.stopImmediatePropagation();
-
-      if(syncPrint())window.print();
-    },true);
-  });
-})();
-</script>
+<script defer="" src="app.js?v=245"></script>
 
 <script src="analytics.js" defer></script>
 </body>

@@ -3,8 +3,10 @@
   const measurementId = "G-Q5W00LDHZD";
   const storageKey = "precocerto_analytics_consent";
   let analyticsLoaded = false;
+  let consentOverride;
 
   function getConsent() {
+    if (consentOverride !== undefined) return consentOverride;
     try {
       return localStorage.getItem(storageKey);
     } catch {
@@ -13,8 +15,10 @@
   }
 
   function setConsent(value) {
+    consentOverride = value;
     try {
       localStorage.setItem(storageKey, value);
+      consentOverride = undefined;
     } catch {
       return false;
     }
@@ -22,13 +26,14 @@
   }
 
   function startAnalytics() {
+    window["ga-disable-" + measurementId] = false;
     if (analyticsLoaded) return;
 
     analyticsLoaded = true;
     window.dataLayer = window.dataLayer || [];
 
     window.gtag = function () {
-      window.dataLayer.push(arguments);
+      if (getConsent() === "accepted") window.dataLayer.push(arguments);
     };
 
     window.gtag("js", new Date());
@@ -171,12 +176,14 @@
     });
 
     panel.querySelector("#pc-consent-reject").addEventListener("click", () => {
-      const wasAccepted = getConsent() === "accepted";
-      setConsent("rejected");
+      const saved = setConsent("rejected");
 
-      if (wasAccepted && analyticsLoaded) {
-        window.location.reload();
-        return;
+      if (analyticsLoaded) {
+        window["ga-disable-" + measurementId] = true;
+        if (saved) {
+          window.location.reload();
+          return;
+        }
       }
 
       updateVisibility();
@@ -191,10 +198,12 @@
 
     window.addEventListener("storage", (event) => {
       if (event.key !== storageKey && event.key !== null) return;
+      consentOverride = undefined;
 
       if (getConsent() === "accepted") {
         startAnalytics();
       } else if (analyticsLoaded) {
+        window["ga-disable-" + measurementId] = true;
         window.location.reload();
         return;
       }

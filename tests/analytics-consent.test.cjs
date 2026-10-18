@@ -6,17 +6,25 @@ const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '..', 'analytics.js'), 'utf8');
 const storageKey = 'precocerto_analytics_consent';
 
-function runAnalytics(initialConsent = null) {
+function runAnalytics(initialConsent = null, storageBlocked = false, readsBlocked = false) {
   let consent = initialConsent;
   let reloads = 0;
   const listeners = new Map();
   const head = [];
   const body = [];
-  const node = tag => ({
-    tag, style: {}, hidden: false,
-    setAttribute() {}, addEventListener() {},
-    querySelector() { return node('button'); }
-  });
+  const node = tag => {
+    const children = new Map(), handlers = new Map();
+    return {
+      tag, style: {}, hidden: false,
+      setAttribute() {},
+      addEventListener(event, handler) { handlers.set(event, handler); },
+      click() { handlers.get('click')(); },
+      querySelector(selector) {
+        if (!children.has(selector)) children.set(selector, node('button'));
+        return children.get(selector);
+      }
+    };
+  };
   const window = {
     location: {reload() { reloads += 1; }},
     addEventListener(event, handler) {
@@ -32,8 +40,14 @@ function runAnalytics(initialConsent = null) {
     body: {appendChild(child) { body.push(child); }}
   };
   const localStorage = {
-    getItem(key) { return key === storageKey ? consent : null; },
-    setItem(key, value) { if (key === storageKey) consent = value; }
+    getItem(key) {
+      if (readsBlocked) throw new Error('Storage unavailable');
+      return key === storageKey ? consent : null;
+    },
+    setItem(key, value) {
+      if (storageBlocked) throw new Error('Storage unavailable');
+      if (key === storageKey) consent = value;
+    }
   };
   vm.runInNewContext(source, {window, document, localStorage, Date}, {filename:'analytics.js'});
   return {
@@ -61,6 +75,25 @@ test('Analytics: consentimento recebido de outra aba inicia uma única configura
   assert.equal(e.window.dataLayer.filter(args => args[0] === 'config').length, 1);
   assert.equal(e.panel().hidden, true);
   assert.equal(e.reloads(), 0);
+});
+
+test('Analytics: recusa bloqueia coleta mesmo quando não é possível gravar a preferência', () => {
+  for (const [initial, readsBlocked] of [[null, false], [null, true], ['accepted', false]]) {
+    const e = runAnalytics(initial, true, readsBlocked);
+    if (initial === null) e.panel().querySelector('#pc-consent-accept').click();
+    assert.equal(e.scripts().length, 1);
+    e.panel().querySelector('#pc-consent-reject').click();
+    const size = e.window.dataLayer.length;
+    e.window.gtag('event', 'nao_deve_ser_enviado');
+    assert.equal(e.window.dataLayer.length, size);
+    assert.equal(e.window['ga-disable-G-Q5W00LDHZD'], true);
+    assert.equal(e.reloads(), 0);
+    assert.equal(e.panel().hidden, true);
+    e.panel().querySelector('#pc-consent-accept').click();
+    assert.equal(e.window['ga-disable-G-Q5W00LDHZD'], false);
+    assert.equal(e.scripts().length, 1);
+    assert.equal(e.window.dataLayer.filter(args => args[0] === 'config').length, 1);
+  }
 });
 
 test('Analytics: revogação em outra aba recarrega e recusa não inicia coleta', () => {
