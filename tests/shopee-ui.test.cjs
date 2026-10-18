@@ -235,6 +235,8 @@ test('Shopee UI: página mantém rótulos, teclado decimal, data de revisão e r
   assert.match(html,/As condições particulares e a fórmula regressiva não foram verificadas/);
   assert.match(html,/exatamente 450 pedidos e os limites exatos das faixas ainda precisam de confirmação/);
   assert.match(html,/não aplica o desconto Pix nem calcula a base fiscal/);
+  assert.match(html,/item de R\$ 8 com taxa de R\$ 6 e um item de R\$ 10 com taxa de R\$ 6,50/);
+  assert.match(html,/não estima automaticamente as taxas dessa faixa/);
   assert.doesNotMatch(html,/referências públicas verificadas|A tabela foi confrontada|neste ambiente/);
   assert.match(html,/<meta name="robots" content="index,follow">/);
 });
