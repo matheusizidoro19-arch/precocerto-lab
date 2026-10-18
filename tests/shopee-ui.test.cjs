@@ -91,7 +91,7 @@ test('Shopee UI: conferir preço não depende do preenchimento da margem desejad
 
 test('Shopee UI: falhas não removem avisos de referência não confirmada nem de modo manual',()=>{
   const {get,alterar}=executar({perfil:'cpf_acima_450',margem:90,'preco-atual':100});
-  assert.match(get('aviso').textContent,/não foram confirmadas diretamente/);
+  assert.match(get('aviso').textContent,/condições individuais e as exceções ainda precisam de conferência/);
   assert.match(get('aviso').textContent,/CPF abaixo de R\$ 12,00/);
   assert.match(get('aviso').textContent,/não representa o menor preço possível/);
   alterar('modo','manual','change');
