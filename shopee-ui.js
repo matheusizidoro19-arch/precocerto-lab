@@ -39,7 +39,7 @@
       const r=window.ShopeeTarifas.calcularPreco(config);
       $('shopee-erro').textContent='';
       $('shopee-preco').textContent=brl(r.precoCentavos);
-      $('shopee-faixa').textContent='Faixa: '+r.tarifa.faixa;
+      $('shopee-faixa').textContent=(config.perfil!=='cnpj' && modo.value!=='manual' ? 'Preço limitado às faixas de R$ 12,00 ou mais. ' : '')+'Faixa: '+r.tarifa.faixa;
       $('shopee-comissao').textContent=pct(r.tarifa.percentual)+' ('+brl(r.tarifa.percentualCentavos)+')';
       $('shopee-fixa').textContent=brl(r.tarifa.fixoCentavos);
       $('shopee-adicional').textContent=brl(r.tarifa.adicionalCpfCentavos);
@@ -48,8 +48,8 @@
       $('shopee-lucro').textContent=brl(r.lucroCentavos);
       $('shopee-margem-final').textContent=pct(r.margemEfetiva);
       $('shopee-aviso').textContent= r.aviso
-        ? 'Atenção: '+r.aviso+' Tarifa estimada por tabela pública, sem consulta à sua conta. Verifique condições e taxas atuais.'
-        : 'Atenção: '+(modo.value==='manual'?'Tarifas informadas por você.':'Tabela pública de referência desde 01/10/2026, revisada em fontes secundárias em 18/10/2026.')+' Não é uma consulta ao seu extrato. Confirme campanhas, frete, tributos e outras cobranças.';
+        ? 'Atenção: '+r.aviso+' Não representa o menor preço possível para produtos abaixo de R$ 12,00. Tarifa estimada por tabela pública, sem consulta à sua conta. Confira sua condição na Shopee.'
+        : 'Atenção: '+(modo.value==='manual'?'Tarifas informadas por você; se mudam por faixa ou são regressivas, a simulação pode variar com o preço.':'Tabela pública de referência desde 01/10/2026, revisada em fontes secundárias em 18/10/2026.')+' Não é uma consulta ao seu extrato. Confirme campanhas, frete, tributos e outras cobranças.';
       const atual=numero('shopee-preco-atual',true);
       $('shopee-conferencia').hidden=atual===null;
       if(atual!==null){
