@@ -31,6 +31,25 @@ A tentativa com esse endereço completo também falhou no proxy em 18/10/2026: `
 
 **Diferença entre evidência e garantia:** as capturas sustentam os valores **das tabelas mostradas**, mas não provam que todas as lojas, campanhas, descontos, pedidos e arredondamentos produzem essas cobranças. Continuar mostrando resultado como estimativa, oferecer modo manual e orientar consulta ao extrato do vendedor. O código atual já corresponde aos percentuais e parcelas fixas dessas faixas e mantém o automático bloqueado para CPF abaixo de R$ 12; nenhuma mudança matemática é necessária apenas com essa evidência.
 
+### Capturas adicionais: exemplos da cobrança regressiva para CPF (18/10/2026)
+
+Duas novas capturas fornecidas pelo usuário mostram a página detalhada de comissionamento para vendedores CPF, com rodapé **“Última atualização: 01 de outubro de 2026”**. O texto visível afirma que, para produtos com preço abaixo de R$ 12, a taxa **por item vendido** é regressiva, e dá os seguintes exemplos:
+
+| Preço do item | Taxa indicada no exemplo da página | Diferença |
+| --- | --- | --- |
+| R$ 8,00 | R$ 6,00 | — |
+| R$ 10,00 | R$ 6,50 | R$ 0,50 |
+
+**Esses dois exemplos não definem uma fórmula geral.** Ainda é ambíguo se “taxa” no exemplo corresponde a toda a comissão ou a algum componente; a página não discrimina os valores percentuais e fixos nesses dois casos, não explica arredondamento nem revela todos os degraus entre centavos. Portanto, **não interpolar, extrapolar nem inferir tarifa automática para preços abaixo de R$ 12 a partir desses exemplos**.
+
+A página também registra que vendedores CPF abaixo do limite de pedidos ficam isentos do adicional R$ 3 e que a comissão já contempla a taxa de transação. O texto usa “menos de 450 pedidos” e outros trechos usam “ultrapassam 450 pedidos”; o tratamento para **exatamente 450** permanece ambíguo e depende da conferência na conta.
+
+O subsídio Pix exibido nessa página é descrito como 5% para a faixa de R$ 80 até R$ 499,99 e 8% acima de R$ 500, condicionado ao programa. Não somar esse subsídio automaticamente ao lucro nem alterar a faixa de comissão apenas por causa do Pix.
+
+Os exemplos são **evidência textual da política exibida nas capturas fornecidas**, não comprovam correspondência com todas as transações. A interface permanece em modo manual para CPF abaixo de R$ 12. Um extrato anonimizado de venda autorizada pode apoiar a validação individual sem revelar dados pessoais.
+
+---
+
 ### Leitura contextual e pontos que continuam ambíguos
 
 - C1 corresponde ao título, comunicado e tabela CNPJ; C2 ao exemplo Pix; C3 às notas CNPJ, tabela CPF e início da regra regressiva; C4 às notas CPF, frete e rodapé. C5 repete C1. Essa identificação permite localizar os trechos transcritos nas capturas da conversa; os originais não estão arquivados no repositório.
