@@ -105,6 +105,85 @@
       color: #ffffff;
     }
 
+
+    .home-shopee {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 26px;
+      background: linear-gradient(115deg, #103558, #10243a);
+      color: #ffffff;
+      border-color: #204f78;
+    }
+
+    .home-shopee-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #a4edda;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .home-shopee h2 {
+      color: #ffffff;
+      margin: 0 0 10px;
+      font-size: clamp(1.45rem, 2.7vw, 1.85rem);
+    }
+
+    .home-shopee p {
+      color: #e0eaf5;
+      margin: 0;
+      max-width: 670px;
+    }
+
+    .home-shopee .home-shopee-note {
+      color: #c1d6e9;
+      font-size: 0.86rem;
+      margin-top: 10px;
+    }
+
+    .home-shopee-action {
+      display: inline-block;
+      background: #78e1bf;
+      border-radius: 10px;
+      color: #10243a;
+      font-weight: 800;
+      padding: 15px 20px;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .home-shopee-action:hover {
+      background: #a9f1da;
+      color: #10243a;
+    }
+
+    .home-shopee-action:focus-visible {
+      outline: 3px solid #ffffff;
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 760px) {
+      .home-shopee {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .home-shopee-action {
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      .home-shopee {
+        display: none;
+      }
+    }
+
     @media (max-width: 760px) {
       .home-kit {
         grid-template-columns: 1fr;
@@ -169,6 +248,16 @@
   </p>
 
   <section class="cards" aria-label="Ferramentas gratuitas">
+
+    <article class="panel home-shopee" aria-labelledby="home-shopee-title">
+      <div>
+        <span class="home-shopee-label">Nova ferramenta · Shopee</span>
+        <h2 id="home-shopee-title">Calcule taxas e lucro nas vendas pela Shopee</h2>
+        <p>Simule comissões por faixa de preço para CPF, MEI e CNPJ. Veja o preço de venda estimado, as tarifas e o lucro da sua venda.</p>
+        <p class="home-shopee-note">Gratuita e sem cadastro. Para CPF abaixo de R$ 12, consulte a tarifa na sua conta e use o modo manual.</p>
+      </div>
+      <a class="home-shopee-action" href="shopee-tarifas.html">Abrir calculadora Shopee →</a>
+    </article>
 
     <article class="panel">
       <h2>Impressão 3D</h2>

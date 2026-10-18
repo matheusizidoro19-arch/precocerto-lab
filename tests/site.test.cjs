@@ -142,3 +142,12 @@ test('Referências locais das páginas apontam para arquivos existentes', () => 
     }
   }
 });
+
+test('Página inicial destaca a calculadora Shopee com acesso e ressalva sobre CPF', () => {
+  const html=source('index.html');
+  assert.match(html,/class="panel home-shopee"/);
+  assert.match(html,/href="shopee-tarifas\.html">Abrir calculadora Shopee/);
+  assert.match(html,/Para CPF abaixo de R\$ 12, consulte a tarifa/);
+  assert.match(html,/\.home-shopee-action:focus-visible/);
+  assert.match(html,/@media \(max-width: 760px\)/);
+});
