@@ -306,3 +306,25 @@ test('a margem 19,994148% é rejeitada explicitamente, sem arredondamento silenc
   assert.equal(minimo.precoCentavos, 3624);
   assert.ok(referenciaIndependente({ ...cfg, margemPercentual: 20 }, minimo.precoCentavos).atende);
 });
+
+test('exemplo documental de R$ 500: referência CNPJ coincide com cartão/boleto, sem simular subsídio Pix', () => {
+  const resultado = conferirPreco(config({ custoCentavos: 0, margemPercentual: 0 }), 50000);
+  assert.equal(resultado.tarifa.percentualCentavos, 7000);
+  assert.equal(resultado.tarifa.fixoCentavos, 2600);
+  assert.equal(resultado.tarifa.totalCentavos, 9600);
+  assert.equal(resultado.lucroCentavos, 40400);
+  assert.equal(resultado.margemEfetiva, 80.8);
+});
+
+test('modelo mantém comissão-base em torno de R$ 500; mudança de subsídio Pix não cria outra faixa', () => {
+  for (const perfil of ['cnpj', 'cpf_ate_450', 'cpf_acima_450']) {
+    const cfg = config({ perfil, custoCentavos: 0 });
+    for (const preco of [49999, 50000, 50001]) {
+      const resultado = conferirPreco(cfg, preco);
+      assert.equal(resultado.tarifa.percentual, 14);
+      assert.equal(resultado.tarifa.fixoCentavos, 2600);
+      assert.equal(resultado.tarifa.totalCentavos, perfil === 'cpf_acima_450' ? 9900 : 9600);
+      assert.equal(BigInt(resultado.lucroCentavos), referenciaIndependente(cfg, preco).lucro);
+    }
+  }
+});

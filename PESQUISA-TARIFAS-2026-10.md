@@ -4,11 +4,17 @@
 
 Em 18/10/2026, foram fornecidas cinco capturas de tela da página identificada como **Central de Educação do Vendedor Shopee — "Confira a Política de Comissão para vendedores CNPJ e CPF"**, publicação exibida como **18/09/2026**, com alteração de R$ 4,00 para R$ 4,50 na parcela fixa aplicável à faixa de até R$ 79,99 a partir de **01/10/2026**. As capturas podem ser examinadas na conversa de origem; não foram incorporadas ao repositório. A origem é identificável visualmente, mas a URL autenticada e o texto integral da página não foram verificados de maneira independente no ambiente de execução.
 
-**Regras legíveis nessas capturas:**
+O usuário associou essas capturas à URL abaixo em resposta à pergunta de procedência, registrada sem parâmetro de rastreamento:
+
+https://seller.shopee.com.br/edu/article/26839/Comissao-para-vendedores-CNPJ-e-CPF-em-2026
+
+A tentativa com esse endereço completo também falhou no proxy em 18/10/2026: `urlopen` informou `Tunnel connection failed: 403 Forbidden`. O vínculo entre URL e capturas foi informado pelo usuário; não houve comparação online independente com o conteúdo da página.
+
+**Valores legíveis nas capturas, organizados pelas faixas adotadas no modelo:**
 
 | Faixa da venda | Parcela percentual | Parcela fixa, CNPJ | Adicional CPF com mais de 450 pedidos nos 90 dias anteriores |
 | --- | --- | --- | --- |
-| R$ 9,00 a R$ 79,99 | 20% | R$ 4,50 | R$ 3,00 por item |
+| R$ 9,00 a R$ 79,99 | 20% | R$ 4,50 | R$ 3,00 por item somente a partir de R$ 12; abaixo disso, regra regressiva não determinada |
 | R$ 80,00 a R$ 99,99 | 14% | R$ 16,00 | R$ 3,00 por item |
 | R$ 100,00 a R$ 199,99 | 14% | R$ 20,00 | R$ 3,00 por item |
 | R$ 200,00 ou mais | 14% | R$ 26,00 | R$ 3,00 por item |
@@ -24,6 +30,27 @@ Em 18/10/2026, foram fornecidas cinco capturas de tela da página identificada c
 - Benefícios de frete grátis divulgados em faixas de até **R$ 20** para item de até R$ 79,99, **R$ 30** de R$ 80 a R$ 199,99 e **R$ 40** acima de R$ 200, sempre sujeitos aos termos do programa. Não representam automaticamente frete gratuito para o vendedor.
 
 **Diferença entre evidência e garantia:** as capturas sustentam os valores **das tabelas mostradas**, mas não provam que todas as lojas, campanhas, descontos, pedidos e arredondamentos produzem essas cobranças. Continuar mostrando resultado como estimativa, oferecer modo manual e orientar consulta ao extrato do vendedor. O código atual já corresponde aos percentuais e parcelas fixas dessas faixas e mantém o automático bloqueado para CPF abaixo de R$ 12; nenhuma mudança matemática é necessária apenas com essa evidência.
+
+### Leitura contextual e pontos que continuam ambíguos
+
+- C1 corresponde ao título, comunicado e tabela CNPJ; C2 ao exemplo Pix; C3 às notas CNPJ, tabela CPF e início da regra regressiva; C4 às notas CPF, frete e rodapé. C5 repete C1. Essa identificação permite localizar os trechos transcritos nas capturas da conversa; os originais não estão arquivados no repositório.
+- O cabeçalho mostra `18-09-2026`; o comunicado informa ajuste a partir de `01/10/2026`; o rodapé diz “Última atualização: 01 de outubro de 2026”. `18/10/2026` é a data desta leitura documental, não uma nova vigência nem uma consulta online bem-sucedida.
+- As tabelas escrevem “acima de R$ 80”, “acima de R$ 100”, “acima de R$ 200” e “acima de R$ 500”. As fronteiras inclusivas do motor não são uma transcrição literal inequívoca desses termos. O texto de frete não resolve, por si só, uma ambiguidade de comissão. O exemplo de R$ 500 confirma seu caso específico, sem provar elegibilidade de todas as lojas.
+- Para CPF, C3 diz “ultrapassam 450 pedidos em um período de 90 dias”, enquanto C4 diz “menos de 450 pedidos nos últimos 90 dias”. Exatamente 450 não está explicitado; o perfil `cpf_ate_450` continua sendo uma hipótese nesse ponto. Orientar modo manual até a confirmação.
+- C4 fala em “apenas a taxa fixa por item” no contexto da isenção dos R$ 3. Não se conclui desse trecho isolado que a comissão percentual foi abolida. MEI não é mencionado nominalmente, portanto sua equivalência com CNPJ permanece pendente.
+- C3 afirma que a comissão não é cobrada em cancelamento, devolução, reembolso ou desistência e que já contempla a taxa de transação. O modelo considera uma venda concluída sem esses eventos; não aplica outra taxa de transação nem calcula estornos.
+- A regra regressiva de CPF abaixo de R$ 12 aparece descrita, mas sem fórmula integral. O arredondamento de parcelas, inclusive meio centavo para CNPJ abaixo de R$ 9, não é informado. Manter essas limitações identificadas, sem inventar uma taxa substituta.
+
+### Conferência do exemplo de R$ 500
+
+| Coluna da captura C2 | Preço cadastrado | Valor fiscal do item | Subsídio Pix | Comissão indicada | Líquido recebido |
+| --- | --- | --- | --- | --- | --- |
+| Cartão ou boleto | R$ 500 | R$ 500 | R$ 0 | R$ 96 | R$ 404 |
+| Pix | R$ 500 | R$ 460 | R$ 40 | R$ 56 | R$ 404 |
+
+O motor CNPJ reproduz a coluna cartão/boleto: `500 × 14% + 26 = 96` e `500 − 96 = 404`, sem outros custos, tributos ou publicidade. Na coluna Pix, `460 − 56 = 404`: somar ou descontar novamente R$ 40 desse saldo contaria o benefício duas vezes. O exemplo não fornece uma fórmula geral de comissão Pix, descontos ou base tributária para outros preços e condições. O subsídio Pix não é aplicado automaticamente na ferramenta.
+
+Os 81% e 88% exibidos na captura correspondem aproximadamente a `404/500` e `404/460`. Não comprovam lucro comercial depois de custos não informados. O motor usa o preço fornecido como denominador e não calcula base fiscal.
 
 ---
 
@@ -42,6 +69,7 @@ Método: HTTPS com redirecionamentos habilitados, verificação TLS preservada e
 | Tipo e procedência | URL | Resultado observado | Evidência disponível nesta rodada |
 | --- | --- | --- | --- |
 | Oficial, referência herdada | https://seller.shopee.com.br/edu/article/26839 | CONNECT 403; curl 56; origem não alcançada | Sem leitura; conteúdo e regra não confirmados |
+| Oficial, URL completa informada pelo usuário para C1–C4 | https://seller.shopee.com.br/edu/article/26839/Comissao-para-vendedores-CNPJ-e-CPF-em-2026 | CONNECT 403; `urlopen` sem resposta da origem | Conteúdo lido nas capturas; vínculo informado pelo usuário, sem comparação online |
 | Oficial, referência herdada | https://seller.shopee.com.br/edu/article/18484 | CONNECT 403; curl 56; origem não alcançada | Sem leitura; conteúdo e regra não confirmados |
 | Secundária, documento anterior informa 15/10/2026 | https://multdrop.com.br/taxas-da-shopee/ | CONNECT 403; curl 56; origem não alcançada | Registro histórico, sem revalidação |
 | Secundária, documento anterior informa 07/10/2026 | https://beevix.com.br/blog/taxa-shopee-2026-cnpj-cpf | CONNECT 403; curl 56; origem não alcançada | Registro histórico, sem revalidação |
@@ -49,10 +77,10 @@ Método: HTTPS com redirecionamentos habilitados, verificação TLS preservada e
 | Secundária, documento anterior informa outubro de 2026 | https://hunterhub.com.br/blog/como-vender-na-shopee/ | CONNECT 403; curl 56; origem não alcançada | Registro histórico, sem revalidação |
 | Secundária, citada no HTML herdado com data 07/10/2026, ausente da lista anterior deste documento | https://www.connectweek.com.br/artigo/margem-por-venda-na-shopee-como-calcular | CONNECT 403; curl 56; origem não alcançada | Citação herdada do HTML; leitura anterior não documentada nem revalidada |
 
-Não há nesta revisão trecho de conteúdo externo que possa ser apresentado como evidência comercial lida. A documentação de uma URL e de uma tentativa de consulta não confirma a informação atribuída àquela página.
+Essas tentativas online não forneceram conteúdo. A evidência visual recebida posteriormente está registrada na seção inicial, separadamente da leitura online bloqueada. As fontes secundárias permanecem sem revalidação.
 
 ## Tabela embutida no modelo, cotejada depois com as capturas oficiais
-A vigência indicada de 01/10/2026 faz parte da referência herdada e não foi confirmada nesta rodada. Os valores abaixo descrevem o modelo implementado, não cobranças exatas da Shopee.
+A vigência indicada de 01/10/2026 consta da captura C1; a consulta online permaneceu bloqueada. Os valores abaixo descrevem o modelo implementado, não cobranças exatas de uma conta da Shopee.
 
 - Abaixo de R$ 9 (MEI/CNPJ): comissão 20%, parcela fixa estimada em metade do preço do item.
 - R$ 9,00 a R$ 79,99: comissão 20% + R$ 4,50 por item.
@@ -84,7 +112,7 @@ Os testes automatizados podem validar a matemática sobre essa tabela. Eles não
 - Campanhas, frete, devoluções, descontos, condições de anúncio, tributos e benefícios individuais podem mudar os custos.
 - Há divergências pontuais entre calculadoras de terceiros sobre limites de itens baratos. Não afirmar taxa exata sem conferência na conta.
 - O modelo é uma tabela embutida no JavaScript, **não** uma API nem uma verificação em tempo real.
-- A evidência disponível nesta rodada não sustenta anunciar tarifas como “oficiais”, “confirmadas”, “atualizadas automaticamente” ou com uma nova data de conferência oficial.
+- As capturas sustentam parte da política, sem comprovar validação integral das condições individuais, dos limites ambíguos, de exatamente 450 pedidos, MEI ou arredondamentos. Não anunciar atualização automática nem uma nova data de conferência online oficial.
 - A citação histórica de ConnectWeek no HTML não equivale a uma consulta comprovada. Sua inclusão no registro de tentativas acima corrige a divergência de procedência sem atribuir leitura não realizada.
 
 ## Diretrizes de implementação

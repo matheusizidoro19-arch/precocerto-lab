@@ -231,8 +231,10 @@ test('Shopee UI: página mantém rótulos, teclado decimal, data de revisão e r
   assert.match(html,/Lucro líquido estimado/);
   assert.match(html,/Margem efetiva estimada/);
   assert.match(html,/Custos não informados reduzem o lucro real/);
-  assert.match(html,/Referência revisada em <time datetime="2026-10-18">18\/10\/2026<\/time>\. Conferência oficial pendente\./);
-  assert.match(html,/A tabela ainda não tem confirmação oficial/);
+  assert.match(html,/Tabela de referência comparada com capturas da política oficial em <time datetime="2026-10-18">18\/10\/2026<\/time>\. Exceções e condições individuais ainda exigem conferência\./);
+  assert.match(html,/As condições particulares e a fórmula regressiva não foram verificadas/);
+  assert.match(html,/exatamente 450 pedidos e os limites exatos das faixas ainda precisam de confirmação/);
+  assert.match(html,/não aplica o desconto Pix nem calcula a base fiscal/);
   assert.doesNotMatch(html,/referências públicas verificadas|A tabela foi confrontada|neste ambiente/);
   assert.match(html,/<meta name="robots" content="noindex,follow">/);
 });

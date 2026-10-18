@@ -48,6 +48,9 @@ Casos que devem permanecer cobertos:
 - Custo R$ 40, margem desejada 90%, preço atual R$ 100: sugestão indisponível, mas conferência da referência mostra tarifa R$ 34 e lucro R$ 26.
 - Antes, no limite e depois de R$ 9, R$ 12, R$ 80, R$ 100 e R$ 200 nos três perfis.
 - A entrada de margem `19,994148%` não é suportada pela precisão do formulário e deve gerar erro explícito, sem ser convertida silenciosamente em outra meta.
+- Exemplo documental de R$ 500, CNPJ e demais custos zerados: comissão-base R$ 96 e saldo R$ 404, conforme a coluna cartão/boleto das capturas. O motor não simula a coluna Pix; seu líquido de R$ 404 já considera o subsídio e não deve receber outro abatimento de R$ 40.
+
+As capturas fornecidas em 18/10/2026 sustentam parte da tabela, mas não explicitam todas as fronteiras ou o arredondamento. Os testes nesses limites validam as hipóteses do modelo; não resolvem ambiguidades da redação comercial. Consulte a matriz de evidências antes de mudar uma regra.
 
 No Chromium, conferir larguras de 320, 390, 768 e 1365 pixels, teclado, campos manuais desativados, mudanças sucessivas e entradas inválidas, mensagens anunciáveis, contraste, ausência de rolagem horizontal e erros de JavaScript. Verificar também valores altos nos resultados. Testes com requisições externas bloqueadas não demonstram recebimento de eventos no GA4.
 
