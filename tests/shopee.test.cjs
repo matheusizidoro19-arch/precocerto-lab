@@ -49,3 +49,32 @@ test('validação impede margem inválida e valores não finitos',()=>{
  assert.throws(()=>calcularPreco(config({custoCentavos:Infinity})),/custos/);
 });
 
+test('limites de R$ 8,99 e R$ 9,00 aplicam tarifa CNPJ',()=>{
+  const a=calcularTarifa(899,'cnpj'), b=calcularTarifa(900,'cnpj');
+  assert.equal(a.percentual,20); assert.equal(a.fixoCentavos,450);
+  assert.equal(b.fixoCentavos,450); assert.equal(b.totalCentavos,630);
+});
+test('quebras exatas de tarifas nas faixas',()=>{
+  for(const [p,rate,fixa] of [[7999,20,450],[8000,14,1600],[9999,14,1600],[10000,14,2000],[19999,14,2000],[20000,14,2600]]){
+    const t=calcularTarifa(p,'cnpj'); assert.equal(t.percentual,rate);assert.equal(t.fixoCentavos,fixa);
+  }
+});
+test('CPF: bloqueio abaixo de doze reais e adicional conforme pedidos',()=>{
+  assert.equal(calcularTarifa(1199,'cpf_ate_450'),null);
+  assert.equal(calcularTarifa(1199,'cpf_acima_450'),null);
+  assert.equal(calcularTarifa(1200,'cpf_ate_450').totalCentavos,690);
+  assert.equal(calcularTarifa(1200,'cpf_acima_450').totalCentavos,990);
+});
+test('conferência no preço real muda taxa quando ultrapassa a faixa',()=>{
+  const cfg=config({custoCentavos:3000});
+  const antes=conferirPreco(cfg,7999),depois=conferirPreco(cfg,8000);
+  assert.equal(antes.tarifa.totalCentavos,2050);
+  assert.equal(depois.tarifa.totalCentavos,2720);
+  assert.equal(antes.lucroCentavos,7999-3000-2050);
+  assert.equal(depois.lucroCentavos,8000-3000-2720);
+});
+test('CPF: alerta explicita limite da tarifa não conhecida',()=>{
+  const r=calcularPreco(config({perfil:'cpf_ate_450',custoCentavos:100}));
+  assert.ok(r.precoCentavos>=1200);
+  assert.match(r.aviso,/abaixo de R\$ 12/);
+});
