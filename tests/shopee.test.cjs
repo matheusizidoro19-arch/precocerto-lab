@@ -230,3 +230,79 @@ test('conferência preserva prejuízo, modo manual e bloqueio de CPF abaixo de R
   assert.throws(() => conferirPreco(config(), 0), /preço de venda válido/);
   assert.throws(() => conferirPreco(config({ modo: 'manual', fixaManualCentavos: 1e20 }), 10000), /tarifa manual/);
 });
+
+test('cada perfil confere os centavos antes, no limite e depois de R$ 9, 12, 80, 100 e 200', () => {
+  const valoresCnpj = [
+    [899, 630], [900, 630], [901, 630],
+    [1199, 690], [1200, 690], [1201, 690],
+    [7999, 2050], [8000, 2720], [8001, 2720],
+    [9999, 3000], [10000, 3400], [10001, 3400],
+    [19999, 4800], [20000, 5400], [20001, 5400]
+  ];
+  for (const perfil of ['cnpj', 'cpf_ate_450', 'cpf_acima_450']) {
+    const cfg = config({ perfil, impostoPercentual: 12.34, anuncioPercentual: 0.07 });
+    for (const [preco, tarifaCnpj] of valoresCnpj) {
+      const contexto = JSON.stringify({ perfil, preco });
+      if (perfil !== 'cnpj' && preco < 1200) {
+        assert.equal(calcularTarifa(preco, perfil), null, contexto);
+        assert.throws(() => conferirPreco(cfg, preco), /não foi confirmada/, contexto);
+        continue;
+      }
+      const resultado = conferirPreco(cfg, preco);
+      assert.equal(resultado.tarifa.totalCentavos, tarifaCnpj + (perfil === 'cpf_acima_450' ? 300 : 0), contexto);
+      assert.equal(BigInt(resultado.lucroCentavos), referenciaIndependente(cfg, preco).lucro, contexto);
+    }
+  }
+});
+
+test('mínimos próximos das transições são globais pela busca exaustiva independente', () => {
+  for (const perfil of ['cnpj', 'cpf_ate_450', 'cpf_acima_450']) {
+    for (const limite of [900, 1200, 8000, 10000, 20000]) {
+      const cfg = config({ perfil, custoCentavos: 0, impostoPercentual: 0.07, anuncioPercentual: 0.29 });
+      const antes = referenciaIndependente(cfg, limite - 1);
+      if (!antes) continue;
+      const custoLimite = Number((antes.lucro * 10000n - BigInt(limite - 1) * 2000n) / 10000n);
+      for (const ajuste of [-1, 0, 1]) {
+        if (custoLimite + ajuste < 0) continue;
+        compararComBuscaExaustiva({ ...cfg, custoCentavos: custoLimite + ajuste }, 30000);
+      }
+    }
+  }
+});
+
+test('custos elevados e arredondamentos permanecem exatos perto do limite de R$ 1 milhão', () => {
+  for (const perfil of ['cnpj', 'cpf_ate_450', 'cpf_acima_450']) {
+    const cfg = config({ perfil, custoCentavos: 85000000, impostoPercentual: 0.07, anuncioPercentual: 0.29, margemPercentual: 0.11 });
+    const fixos = BigInt(cfg.custoCentavos + 2600 + (perfil === 'cpf_acima_450' ? 300 : 0));
+    const denominador = 8553n;
+    const numerador = fixos * 10000n - 3n * 5000n;
+    const inicio = Number((numerador + denominador - 1n) / denominador);
+    let esperado = null;
+    for (let preco = inicio; preco <= 100000000; preco++) {
+      if (referenciaIndependente(cfg, preco).atende) {
+        esperado = preco;
+        break;
+      }
+    }
+    assert.notEqual(esperado, null);
+    const resultado = calcularPreco(cfg);
+    assert.equal(resultado.precoCentavos, esperado);
+    assert.equal(BigInt(resultado.lucroCentavos), referenciaIndependente(cfg, esperado).lucro);
+    assert.throws(() => calcularPreco(config({ perfil, custoCentavos: 86000000, margemPercentual: 0 })), /Não foi possível/);
+  }
+  const manual = config({ modo: 'manual', custoCentavos: 50000000, fixaManualCentavos: 49999999, margemPercentual: 0 });
+  assert.equal(calcularPreco(manual).precoCentavos, 99999999);
+  assert.equal(conferirPreco(manual, 100000000).lucroCentavos, 1);
+  assert.throws(() => calcularPreco({ ...manual, fixaManualCentavos: 50000001 }), /Não foi possível/);
+});
+
+test('a margem 19,994148% é rejeitada explicitamente, sem arredondamento silencioso', () => {
+  const cfg = config({ custoCentavos: 1000, impostoPercentual: 10, anuncioPercentual: 10, margemPercentual: 19.994148 });
+  assert.throws(() => calcularPreco(cfg), /até duas casas decimais/);
+  const observado = conferirPreco(cfg, 3626);
+  assert.equal(observado.lucroCentavos, 725);
+  assert.ok(Math.abs(observado.margemEfetiva - 19.99448428019857) < 1e-12);
+  const minimo = calcularPreco({ ...cfg, margemPercentual: 20 });
+  assert.equal(minimo.precoCentavos, 3624);
+  assert.ok(referenciaIndependente({ ...cfg, margemPercentual: 20 }, minimo.precoCentavos).atende);
+});

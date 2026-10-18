@@ -14,7 +14,12 @@
     if (!Number.isFinite(valor) || valor<0) throw new Error('Informe somente números válidos e não negativos.');
     return valor;
   };
-  const cents = id => Math.round(numero(id)*100);
+  const cents = id => {
+    const valor=numero(id);
+    const centavos=Math.round(valor*100);
+    if (!Number.isSafeInteger(centavos) || valor!==centavos/100) throw new Error('Informe valores monetários válidos, com até duas casas decimais.');
+    return centavos;
+  };
   const manual = $('shopee-manual');
   const modo = $('shopee-modo');
   modo.addEventListener('change',atualizar);
@@ -25,7 +30,7 @@
     $('shopee-perfil').disabled=ativo;
     $('shopee-aviso').textContent=ativo
       ? 'Atenção: tarifas informadas por você; se mudam por faixa ou são regressivas, a simulação pode variar com o preço. Não é uma consulta ao seu extrato. Confirme campanhas, frete, tributos e outras cobranças.'
-      : 'Atenção: tabela pública de referência desde 01/10/2026, revisada em fontes secundárias em 18/10/2026; as condições não foram confirmadas diretamente na Shopee. Não acessa sua conta em tempo real. Para CPF abaixo de R$ 12,00, a regra regressiva não foi validada e o cálculo automático não está disponível; o preço sugerido para CPF considera apenas faixas a partir de R$ 12,00 e não representa o menor preço possível abaixo desse valor. Consulte seu painel e use o modo manual. Campanhas, multas, frete adicional, devoluções, tributos e outras condições podem alterar o resultado.';
+      : 'Atenção: tabela de referência com vigência informada no modelo desde 01/10/2026, ainda não confirmada; as condições não foram confirmadas diretamente na Shopee. Não acessa sua conta em tempo real. Para CPF abaixo de R$ 12,00, a regra regressiva não foi validada e o cálculo automático não está disponível; o preço sugerido para CPF considera apenas faixas a partir de R$ 12,00 e não representa o menor preço possível abaixo desse valor. Consulte seu painel e use o modo manual. Campanhas, multas, frete adicional, devoluções, tributos e outras condições podem alterar o resultado.';
   }
   function atualizar() {
     atualizarModo();
@@ -58,9 +63,8 @@
       $('shopee-conferencia').hidden=$('shopee-preco-atual').value.trim()==='';
       if(!$('shopee-conferencia').hidden){
         try {
-          const atual=numero('shopee-preco-atual');
-          const ref=window.ShopeeTarifas.conferirPreco(config,Math.round(atual*100));
-          $('shopee-conferencia-texto').textContent='No preço de '+brl(ref.precoCentavos)+', taxa estimada de '+brl(ref.tarifa.totalCentavos)+' e lucro aproximado de '+brl(ref.lucroCentavos)+' ('+pct(ref.margemEfetiva)+').';
+          const ref=window.ShopeeTarifas.conferirPreco(config,cents('shopee-preco-atual'));
+          $('shopee-conferencia-texto').textContent='No preço de '+brl(ref.precoCentavos)+', taxa estimada de '+brl(ref.tarifa.totalCentavos)+' e lucro líquido estimado de '+brl(ref.lucroCentavos)+' (margem efetiva de '+pct(ref.margemEfetiva)+').';
         }catch(e){$('shopee-conferencia-texto').textContent=e.message;}
       }
       return sugestaoValida;
@@ -80,4 +84,3 @@
   $('shopee-form').querySelectorAll('input,select').forEach(el=>el.addEventListener('input',atualizar));
   atualizar();
 })();
-

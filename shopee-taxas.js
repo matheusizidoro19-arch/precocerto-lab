@@ -118,4 +118,3 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root && root.document) root.ShopeeTarifas = api;
 })(typeof window !== 'undefined' ? window : null);
-
