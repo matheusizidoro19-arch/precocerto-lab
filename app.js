@@ -112,17 +112,29 @@ function budget(){
     set('budgetError',message);
     set('total','—');
     set('resumo','Confira os valores informados.');
+    el('budgetPaper').classList.add('budget-invalid');
+    ['pdfData','pdfEmpresa','pdfCliente','pdfServico','pdfQuantidade','pdfUnitario','pdfSubtotal','pdfBruto','pdfDesconto','pdfTotal','pdfObservacoes'].forEach(id=>set(id,''));
+    set('pdfErro','Orçamento indisponível para impressão. '+message);
+    el('pdfErro').hidden=false;
     return false;
   };
+
+  if(['empresa','cliente','servico'].some(id=>el(id).value.trim()==='')){
+    return invalid('Preencha prestador, cliente e serviço antes de gerar o orçamento.');
+  }
 
   if(nums.some(id=>el(id).value.trim()===''||!Number.isFinite(val(id))||val(id)<0)||val('quantidade')<0.01){
     return invalid('Informe quantidade maior que zero e valores válidos.');
   }
 
+  if(nums.some(id=>!Number.isSafeInteger(Math.round(val(id)*100))||val(id)!==Math.round(val(id)*100)/100)){
+    return invalid('Use até duas casas decimais e valores dentro do limite de precisão.');
+  }
+
   const gross=val('quantidade')*val('unitario');
   const total=gross-val('desconto');
 
-  if(!Number.isFinite(gross)||!Number.isFinite(total)){
+  if(!Number.isFinite(gross)||!Number.isFinite(total)||!Number.isSafeInteger(Math.round(gross*100))||!Number.isSafeInteger(Math.round(total*100))){
     return invalid('Os números informados são muito altos. Confira os valores.');
   }
 
@@ -131,6 +143,8 @@ function budget(){
   }
 
   set('budgetError','');
+  el('budgetPaper').classList.remove('budget-invalid');
+  el('pdfErro').hidden=true;
   set('total',total);
 
   const text=[
@@ -160,7 +174,7 @@ function budget(){
   write('pdfBruto',brl(gross));
   write('pdfDesconto',brl(val('desconto')));
   write('pdfTotal',brl(total));
-  write('pdfObservacoes',el('observacoes').value.trim()||'Não informado');
+  write('pdfObservacoes',el('observacoes').value.trim()||'Nenhuma');
 
   return true;
 }
@@ -173,6 +187,7 @@ if(el('budget')){
 
     if(budget()){
       registrarEvento('orcamento_atualizado');
+      registrarEvento('calculo_concluido',{ferramenta:'orcamento'});
     }
   });
 
@@ -182,11 +197,13 @@ if(el('budget')){
 
   el('printBudget').addEventListener('click',()=>{
     if(budget())window.print();
+    else formulario.reportValidity();
   });
 
   let ultimaAberturaImpressao=0;
 
   window.addEventListener('beforeprint',()=>{
+    if(!budget())return;
     const agora=Date.now();
 
     if(agora-ultimaAberturaImpressao>1500){

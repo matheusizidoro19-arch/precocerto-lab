@@ -21,7 +21,7 @@ function element(value = '') {
     fire(k) { (handlers[k] || []).forEach(fn => fn({ preventDefault() {} })); }
   };
 }
-function runApp(values, kind, budget = false) {
+function runApp(values, kind, budget = false, consent = null) {
   const map = new Map(Object.entries(values).map(([k,v]) => [k, element(v)]));
   const form = element();
   form.dataset = { kind };
@@ -37,7 +37,7 @@ function runApp(values, kind, budget = false) {
   const sandbox = {
     document: { getElementById: get },
     window: { gtag: (...args) => events.push(args), addEventListener() {}, print() {} },
-    localStorage: { getItem: () => null }, Date, console
+    localStorage: { getItem: () => consent }, Date, console
   };
   vm.runInNewContext(source('app.js'), sandbox, { filename: 'app.js' });
   return { get, events };
@@ -89,6 +89,67 @@ test('Orçamento: desconto maior que subtotal é recusado', () => {
   assert.equal(e.get('total').textContent,'—');
   assert.match(e.get('budgetError').textContent,/desconto/i);
 });
+
+test('Analytics: calculadoras identificam a ferramenta uma vez por envio válido e exigem consentimento', () => {
+  const fixtures = [
+    ['margem', {custoBase:50,taxas:10,margem:25}],
+    ['impressao', {filamento:90,gramas:80,watts:120,horas:4,tarifa:0.95,maquina:2,extras:3,taxas:10,margem:25}],
+    ['marketplace', marketplace]
+  ];
+
+  for (const [kind, values] of fixtures) {
+    for (const consent of [null, 'rejected', 'accepted']) {
+      const e = runApp(values, kind, false, consent);
+      const expected = consent === 'accepted'
+        ? [['event', 'calculo_concluido', {ferramenta:kind}]]
+        : [];
+      assert.equal(e.events.length, 0, `${kind}: inicialização`);
+      e.get('margem').value = '20';
+      e.get('margem').fire('input');
+      assert.equal(e.events.length, 0, `${kind}: edição`);
+      e.get('calculator').fire('submit');
+      assert.equal(JSON.stringify(e.events), JSON.stringify(expected), `${kind}: ${consent}`);
+
+      e.get('margem').value = '100';
+      e.get('margem').fire('input');
+      e.get('calculator').fire('submit');
+      assert.equal(JSON.stringify(e.events), JSON.stringify(expected), `${kind}: envio inválido`);
+    }
+  }
+});
+
+test('Analytics: orçamento preserva evento existente e identifica conclusão sem enviar dados pessoais', () => {
+  const values = {
+    quantidade:3, unitario:40, desconto:10,
+    empresa:'Empresa privada de exemplo', cliente:'Cliente privado de exemplo',
+    servico:'Serviço privado de exemplo', observacoes:'Condições privadas de exemplo'
+  };
+
+  for (const consent of [null, 'rejected', 'accepted']) {
+    const e = runApp(values, undefined, true, consent);
+    const expected = consent === 'accepted'
+      ? [['event', 'orcamento_atualizado', {}], ['event', 'calculo_concluido', {ferramenta:'orcamento'}]]
+      : [];
+    assert.equal(e.events.length, 0, 'Inicialização não mede conclusão');
+    e.get('observacoes').fire('input');
+    e.get('quantidade').fire('input');
+    assert.equal(e.events.length, 0, 'Edição não mede conclusão');
+    e.get('budget').fire('submit');
+    assert.equal(JSON.stringify(e.events), JSON.stringify(expected), `Consentimento: ${consent}`);
+
+    e.get('budget').fire('submit');
+    assert.equal(JSON.stringify(e.events), JSON.stringify([...expected, ...expected]), 'Um evento de cada nome por envio válido');
+
+    const beforeInvalid = JSON.stringify(e.events);
+    for (const invalid of ['', '-1', '121']) {
+      e.get('desconto').value = invalid;
+      e.get('desconto').fire('input');
+      e.get('budget').fire('submit');
+      assert.equal(JSON.stringify(e.events), beforeInvalid, `Desconto inválido: ${invalid}`);
+    }
+  }
+});
+
 function runSimulator(overrides={}) {
   const inline = [...source('marketplace.html').matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
     .map(x=>x[1]).find(x=>x.includes('const sync = $("risco-automatico")'));
