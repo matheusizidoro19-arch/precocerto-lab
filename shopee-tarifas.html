@@ -44,9 +44,22 @@ header nav>div{max-width:100%;display:flex;flex-wrap:wrap}
 @media(max-width:830px){.shopee-grid{grid-template-columns:1fr}}
 @media(max-width:440px){.shopee-fields{grid-template-columns:1fr}.shopee-full{grid-column:auto}.shopee-line{flex-direction:column;gap:4px}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "url": "https://lucronoazul.com.br/shopee-tarifas.html",
+  "name": "Calculadora de taxas da Shopee para CPF, MEI e CNPJ",
+  "description": "Calcule um preço de venda estimado levando em conta a faixa de preço da Shopee, a tarifa por item, seus custos e a margem desejada. Os percentuais são referências de simulação conferidos nas capturas da política oficial enviadas em 18/10/2026, mas não representam uma consulta à sua conta ou confirmação de todas as exceções.",
+  "inLanguage": "pt-BR",
+  "applicationCategory": "FinanceApplication",
+  "isAccessibleForFree": true
+}
+</script>
 </head>
 <body>
-<header><nav aria-label="Navegação principal"><a class="brand" href="index.html">◈ Lucro no Azul</a><div><a href="impressao-3d.html">Impressão 3D</a><a href="margem-lucro.html">Margem</a><a href="marketplace.html">Marketplace</a><a href="orcamento.html">Orçamentos</a></div></nav></header>
+<header><nav aria-label="Navegação principal"><a class="brand" href="index.html">◈ Lucro no Azul</a><div><a href="impressao-3d.html">Impressão 3D</a><a href="margem-lucro.html">Margem</a><a href="marketplace.html">Marketplace</a>
+<a href="shopee-tarifas.html">Shopee</a><a href="orcamento.html">Orçamentos</a></div></nav></header>
 <main>
 <div class="eyebrow">Ferramenta gratuita · Sem cadastro</div>
 <h1>Calculadora de taxas da Shopee para CPF, MEI e CNPJ</h1>
@@ -101,10 +114,13 @@ header nav>div{max-width:100%;display:flex;flex-wrap:wrap}
 <h3>Subsídios Pix e benefícios de frete</h3>
 <p>A política consultada menciona subsídio Pix de 5% em determinadas faixas a partir de R$ 80 e até 8% para itens de R$ 500 ou mais, além de benefícios de frete por faixa. Esses valores dependem das condições do programa e não são somados automaticamente ao lucro nesta calculadora. O custo de frete efetivamente pago pelo vendedor deve ser informado no campo correspondente. A comissão indicada pela política já inclui a taxa de transação.</p>
 <p>Esta simulação não aplica o desconto Pix nem calcula a base fiscal. No exemplo da política para um item de R$ 500, Pix e cartão/boleto resultam em R$ 404 líquidos recebidos; não some nem desconte o subsídio novamente desse saldo.</p>
+<h3>Valor recebido é a mesma coisa que lucro?</h3>
+<p>Não. No cenário de cartão ou boleto do exemplo acima, os R$ 404 já descontam a comissão, mas ainda precisam cobrir seus custos. Se produto, embalagem e frete somarem R$ 300, sem outros tributos ou publicidade, o lucro estimado será de R$ 104: margem de 20,8% sobre os R$ 500 da venda. O custo de R$ 300 é uma hipótese didática; confira os gastos reais da sua operação.</p>
 <h3>Por que os valores mudam perto de R$ 80, R$ 100 e R$ 200?</h3>
 <p>A parcela fixa aumenta quando o preço passa de uma faixa para outra. Por isso o sistema procura o menor preço em centavos que alcança a margem informada, verificando cada faixa em vez de aplicar uma única tarifa para todos os preços.</p>
 <h3>Como conferir se os valores se aplicam à sua loja?</h3>
 <p>Consulte a política da Shopee e seu extrato de vendas antes de definir preços. Se suas tarifas forem diferentes, escolha “Informar minhas tarifas manualmente”. O sistema não acessa sua conta e não atualiza os valores automaticamente. Se a Shopee aplicar uma tarifa regressiva ou uma faixa especial ao seu item, a taxa digitada manualmente serve apenas como referência para a situação informada e pode mudar quando o preço mudar.</p>
+<p>Para avaliar um anúncio existente, preencha “Preço atual do produto”. A conferência mostra as tarifas e o lucro estimados nesse preço, mesmo quando não há sugestão que atenda à margem desejada. O resultado considera apenas os custos e encargos informados, além das tarifas aplicáveis no modelo escolhido.</p>
 <p><strong>Fontes indicadas para conferência:</strong> Centro de Educação do Vendedor da Shopee — <a href="https://seller.shopee.com.br/edu/article/26839" rel="noopener noreferrer" target="_blank">artigo 26839</a> e <a href="https://seller.shopee.com.br/edu/article/18484" rel="noopener noreferrer" target="_blank">artigo 18484</a>. Referências secundárias registradas: <a href="https://multdrop.com.br/taxas-da-shopee/" rel="noopener noreferrer" target="_blank">MultDrop</a> e <a href="https://www.connectweek.com.br/artigo/margem-por-venda-na-shopee-como-calcular" rel="noopener noreferrer" target="_blank">ConnectWeek</a>. As faixas gerais foram comparadas com capturas da política oficial da Shopee datada de 18/09/2026, com vigência indicada desde 01/10/2026. As condições particulares e a fórmula regressiva não foram verificadas. Confira as cobranças no Seller Center e no extrato antes de definir preços.</p>
 <p>Também temos uma <a href="marketplace.html">calculadora de Marketplace com taxas totalmente manuais</a> e um <a href="lucro-shopee-mercado-livre.html">guia sobre lucro em marketplaces</a>.</p>
 </section>

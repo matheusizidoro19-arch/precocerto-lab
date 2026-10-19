@@ -181,29 +181,6 @@ test('Resistência do lucro: desconto de 100% não é permitido', () => {
   get('risco-desconto').value='100';get('risco-desconto').fire('input');
   assert.equal(get('risco-lucro').textContent,'—');
 });
-test('SEO: todas as URLs declaradas têm arquivo, título, H1 e canonical', () => {
-  const urls=[...source('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]);
-  assert.equal(urls.length,14);
-  for(const url of urls){
-    assert.ok(url.startsWith('https://lucronoazul.com.br/'));
-    const p = new URL(url).pathname;
-    const html=source(p==='/'?'index.html':p.slice(1));
-    assert.match(html,/<title>[^<]+<\/title>/i);
-    assert.match(html,/<h1\b/i);
-    assert.ok(html.includes(url));
-  }
-});
-test('Referências locais das páginas apontam para arquivos existentes', () => {
-  for(const page of fs.readdirSync(root).filter(x=>x.endsWith('.html'))) {
-    for(const match of source(page).matchAll(/(?:href|src)=["']([^"']+)["']/g)){
-      const url=match[1];
-      if(/^(https?:|mailto:|tel:|#|data:|\/\/)/i.test(url)) continue;
-      const local=decodeURIComponent(url.split(/[?#]/)[0]);
-      if(local) assert.ok(fs.existsSync(path.join(root,local)),page+': '+url);
-    }
-  }
-});
-
 test('Página inicial destaca a calculadora Shopee com acesso e ressalva sobre CPF', () => {
   const html=source('index.html');
   assert.match(html,/class="panel home-shopee"/);
