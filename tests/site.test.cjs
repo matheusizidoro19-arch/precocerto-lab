@@ -207,3 +207,15 @@ test('Acessibilidade: botões das calculadoras têm textos visíveis distintos e
   }
   assert.ok(links.every(link=>link.text!=='Abrir calculadora'));
 });
+
+test('Campos de frete explicam quando usar zero e mantêm os IDs dos cálculos', () => {
+  for (const [arquivo, id] of [['marketplace.html', 'frete'], ['shopee-tarifas.html', 'shopee-frete']]) {
+    const html = source(arquivo);
+    assert.match(html, /Frete pago pelo vendedor \(se houver\) — R\$/);
+    assert.match(html, new RegExp('id="' + id + '"[^>]*value="0"'));
+    assert.match(html, new RegExp('aria-describedby="' + id + '-ajuda"'));
+    assert.match(html, new RegExp('id="' + id + '-ajuda"'));
+    assert.match(html, /mantenha R\$ 0,00/);
+    assert.match(html, /sem repetir custos já incluídos nas tarifas/);
+  }
+});
