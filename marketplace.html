@@ -100,7 +100,7 @@
         <div class="fields">
           <label>Custo do produto (R$)<input id="produto" min="0" required step="0.01" type="number" value="35"></label>
           <label>Embalagem e extras (R$)<input id="embalagem" min="0" required step="0.01" type="number" value="5"></label>
-          <label>Frete pago pelo vendedor (R$)<input id="frete" min="0" required step="0.01" type="number" value="0"></label>
+          <div><label>Frete pago pelo vendedor (se houver) — R$<input id="frete" min="0" required step="0.01" type="number" value="0" aria-describedby="frete-ajuda"></label><p class="small" id="frete-ajuda">Se você não pagar pelo envio, mantenha R$ 0,00, mesmo quando o comprador tiver frete grátis. Informe apenas o valor efetivamente pago por você, sem repetir custos já incluídos nas tarifas.</p></div>
           <label>Comissão percentual (%)<input id="comissao" min="0" required step="0.1" type="number" value="15"></label>
           <label>Tarifa fixa por venda (R$)<input id="tarifaFixa" min="0" required step="0.01" type="number" value="4"></label>
           <label>Outros tributos sobre venda (%)<input id="imposto" min="0" required step="0.1" type="number" value="0"></label>
