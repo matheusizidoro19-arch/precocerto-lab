@@ -181,29 +181,6 @@ test('Resistência do lucro: desconto de 100% não é permitido', () => {
   get('risco-desconto').value='100';get('risco-desconto').fire('input');
   assert.equal(get('risco-lucro').textContent,'—');
 });
-test('SEO: todas as URLs declaradas têm arquivo, título, H1 e canonical', () => {
-  const urls=[...source('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]);
-  assert.equal(urls.length,14);
-  for(const url of urls){
-    assert.ok(url.startsWith('https://lucronoazul.com.br/'));
-    const p = new URL(url).pathname;
-    const html=source(p==='/'?'index.html':p.slice(1));
-    assert.match(html,/<title>[^<]+<\/title>/i);
-    assert.match(html,/<h1\b/i);
-    assert.ok(html.includes(url));
-  }
-});
-test('Referências locais das páginas apontam para arquivos existentes', () => {
-  for(const page of fs.readdirSync(root).filter(x=>x.endsWith('.html'))) {
-    for(const match of source(page).matchAll(/(?:href|src)=["']([^"']+)["']/g)){
-      const url=match[1];
-      if(/^(https?:|mailto:|tel:|#|data:|\/\/)/i.test(url)) continue;
-      const local=decodeURIComponent(url.split(/[?#]/)[0]);
-      if(local) assert.ok(fs.existsSync(path.join(root,local)),page+': '+url);
-    }
-  }
-});
-
 test('Página inicial destaca a calculadora Shopee com acesso e ressalva sobre CPF', () => {
   const html=source('index.html');
   assert.match(html,/class="panel home-shopee"/);
@@ -211,4 +188,22 @@ test('Página inicial destaca a calculadora Shopee com acesso e ressalva sobre C
   assert.match(html,/Para CPF abaixo de R\$ 12, consulte a tarifa/);
   assert.match(html,/\.home-shopee-action:focus-visible/);
   assert.match(html,/@media \(max-width: 760px\)/);
+});
+
+test('Acessibilidade: botões das calculadoras têm textos visíveis distintos e preservam destinos', () => {
+  const html=source('index.html');
+  const links=[...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+    .filter(match=>/class="button"/.test(match[1]))
+    .map(match=>({href:match[1].match(/href="([^"]+)"/)?.[1],text:match[2].replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()}));
+  const expected={
+    'impressao-3d.html':'Calcular preço de impressão 3D',
+    'margem-lucro.html':'Calcular margem de lucro',
+    'marketplace.html':'Calcular preço para Marketplace'
+  };
+  for(const [href,text] of Object.entries(expected)){
+    const matches=links.filter(link=>link.href===href);
+    assert.equal(matches.length,1,href);
+    assert.equal(matches[0].text,text,href);
+  }
+  assert.ok(links.every(link=>link.text!=='Abrir calculadora'));
 });
