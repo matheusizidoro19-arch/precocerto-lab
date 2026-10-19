@@ -3,6 +3,13 @@
 @media screen{.grid>*{min-width:0}.result{overflow-wrap:anywhere}}
 @media screen and (max-width:375px){.amount{font-size:1.9rem}}
 
+@media screen{
+ header nav a{display:inline-flex;align-items:center;min-width:44px;min-height:44px}
+ header nav>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;max-width:100%}
+ header nav>div a{margin-right:0;padding:8px 4px}
+ header nav a:focus-visible{outline:2px solid #78e1bf;outline-offset:3px}
+}
+
 .budget-paper{display:none}
 @page{size:A4;margin:13mm}
 @media print{

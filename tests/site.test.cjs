@@ -212,3 +212,21 @@ test('Página inicial destaca a calculadora Shopee com acesso e ressalva sobre C
   assert.match(html,/\.home-shopee-action:focus-visible/);
   assert.match(html,/@media \(max-width: 760px\)/);
 });
+
+test('Acessibilidade: botões das calculadoras têm textos visíveis distintos e preservam destinos', () => {
+  const html=source('index.html');
+  const links=[...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+    .filter(match=>/class="button"/.test(match[1]))
+    .map(match=>({href:match[1].match(/href="([^"]+)"/)?.[1],text:match[2].replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()}));
+  const expected={
+    'impressao-3d.html':'Calcular preço de impressão 3D',
+    'margem-lucro.html':'Calcular margem de lucro',
+    'marketplace.html':'Calcular preço para Marketplace'
+  };
+  for(const [href,text] of Object.entries(expected)){
+    const matches=links.filter(link=>link.href===href);
+    assert.equal(matches.length,1,href);
+    assert.equal(matches[0].text,text,href);
+  }
+  assert.ok(links.every(link=>link.text!=='Abrir calculadora'));
+});
