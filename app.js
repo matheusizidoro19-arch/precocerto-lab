@@ -106,7 +106,23 @@ function budget(){
   const form=el('budget');
   if(!form)return false;
 
-  const nums=['quantidade','unitario','desconto'];
+  const limite=9007199254740991n;
+  const decimal=id=>{
+    const partes=/^([+-]?)(\d+(?:\.\d*)?|\.\d+)(?:[eE]([+-]?\d+))?$/.exec(el(id).value.trim());
+    if(!partes)throw new Error('Informe quantidade maior que zero e valores válidos.');
+    const [inteira,fracao='']=partes[2].split('.');
+    const digitos=(inteira+fracao).replace(/^0+/,'');
+    if(!digitos)return 0n;
+    if(partes[1]==='-')throw new Error('Informe quantidade maior que zero e valores válidos.');
+    const significativos=digitos.replace(/0+$/,'');
+    const escala=BigInt(partes[3]||'0')-BigInt(fracao.length)+BigInt(digitos.length-significativos.length)+2n;
+    if(escala<0n||BigInt(significativos.length)+escala>16n){
+      throw new Error('Use até duas casas decimais e valores dentro do limite de precisão.');
+    }
+    const valor=BigInt(significativos)*10n**escala;
+    if(valor>limite)throw new Error('Use até duas casas decimais e valores dentro do limite de precisão.');
+    return valor;
+  };
 
   const invalid=message=>{
     set('budgetError',message);
@@ -123,37 +139,46 @@ function budget(){
     return invalid('Preencha prestador, cliente e serviço antes de gerar o orçamento.');
   }
 
-  if(nums.some(id=>el(id).value.trim()===''||!Number.isFinite(val(id))||val(id)<0)||val('quantidade')<0.01){
+  let quantidade,unitario,desconto;
+  try{
+    quantidade=decimal('quantidade');
+    unitario=decimal('unitario');
+    desconto=decimal('desconto');
+  }catch(error){
+    return invalid(error.message);
+  }
+
+  if(quantidade<1n){
     return invalid('Informe quantidade maior que zero e valores válidos.');
   }
 
-  if(nums.some(id=>!Number.isSafeInteger(Math.round(val(id)*100))||val(id)!==Math.round(val(id)*100)/100)){
-    return invalid('Use até duas casas decimais e valores dentro do limite de precisão.');
-  }
+  const gross=(quantidade*unitario+50n)/100n;
 
-  const gross=val('quantidade')*val('unitario');
-  const total=gross-val('desconto');
-
-  if(!Number.isFinite(gross)||!Number.isFinite(total)||!Number.isSafeInteger(Math.round(gross*100))||!Number.isSafeInteger(Math.round(total*100))){
+  if(gross>limite){
     return invalid('Os números informados são muito altos. Confira os valores.');
   }
 
-  if(val('desconto')>gross){
+  if(desconto>gross){
     return invalid('O desconto não pode superar o subtotal.');
   }
+
+  const total=gross-desconto;
+  const moeda=centavos=>'R$\u00a0'+(centavos/100n).toLocaleString('pt-BR')+','+String(centavos%100n).padStart(2,'0');
+  const fracaoQuantidade=String(quantidade%100n).padStart(2,'0').replace(/0+$/,'');
+  const quantidadeTexto=String(quantidade/100n)+(fracaoQuantidade?'.'+fracaoQuantidade:'');
 
   set('budgetError','');
   el('budgetPaper').classList.remove('budget-invalid');
   el('pdfErro').hidden=true;
-  set('total',total);
+  set('total',moeda(total));
 
   const text=[
     `Prestador: ${el('empresa').value||'Não informado'}`,
     `Cliente: ${el('cliente').value||'Não informado'}`,
     `Serviço: ${el('servico').value||'Não informado'}`,
-    `Quantidade: ${val('quantidade')}`,
-    `Preço unitário: ${brl(val('unitario'))}`,
-    `Desconto: ${brl(val('desconto'))}`,
+    `Quantidade: ${quantidadeTexto}`,
+    `Preço unitário: ${moeda(unitario)}`,
+    `Desconto: ${moeda(desconto)}`,
     `Observações: ${el('observacoes').value||'Nenhuma'}`
   ].join(' | ');
 
@@ -168,12 +193,12 @@ function budget(){
   write('pdfEmpresa',el('empresa').value.trim()||'Não informado');
   write('pdfCliente',el('cliente').value.trim()||'Não informado');
   write('pdfServico',el('servico').value.trim()||'Não informado');
-  write('pdfQuantidade',String(val('quantidade')).replace('.',','));
-  write('pdfUnitario',brl(val('unitario')));
-  write('pdfSubtotal',brl(gross));
-  write('pdfBruto',brl(gross));
-  write('pdfDesconto',brl(val('desconto')));
-  write('pdfTotal',brl(total));
+  write('pdfQuantidade',quantidadeTexto.replace('.',','));
+  write('pdfUnitario',moeda(unitario));
+  write('pdfSubtotal',moeda(gross));
+  write('pdfBruto',moeda(gross));
+  write('pdfDesconto',moeda(desconto));
+  write('pdfTotal',moeda(total));
   write('pdfObservacoes',el('observacoes').value.trim()||'Nenhuma');
 
   return true;
